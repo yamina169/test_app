@@ -5,13 +5,13 @@ export const envValidationSchema = Joi.object({
     .valid('development', 'test', 'production')
     .default('development'),
 
-  BACKEND_PORT: Joi.number().port(),
+  BACKEND_PORT: Joi.number().port().default(3000),
 
   FRONTEND_URL: Joi.string().uri().required(),
 
   // PostgreSQL
   POSTGRES_HOST: Joi.string().required(),
-  POSTGRES_PORT: Joi.number().port(),
+  POSTGRES_PORT: Joi.number().port().default(5432),
   POSTGRES_USER: Joi.string().required(),
   POSTGRES_PASSWORD: Joi.string().required(),
   POSTGRES_DB: Joi.string().required(),
@@ -23,7 +23,7 @@ export const envValidationSchema = Joi.object({
 
   // MinIO
   MINIO_HOST: Joi.string().required(),
-  MINIO_PORT: Joi.number().port(),
+  MINIO_PORT: Joi.number().port().default(9000),
   MINIO_ROOT_USER: Joi.string().required(),
   MINIO_ROOT_PASSWORD: Joi.string().min(5).required(),
   MINIO_BUCKET: Joi.string().required(),

@@ -7,62 +7,44 @@ import { OccupationStatus } from '@common/enums/user.enum';
 import { UserEntity } from '../database/entities/user.entity';
 import { RoleEntity } from '../database/entities/role.entity';
 
-/** Maps between the UserEntity (ORM) and the User domain model.*/
+type ProfileStatus = 'none' | 'full' | 'partial';
+
 export class UserMapper {
+  // ─── Private constants ────────────────────────────────────────────────────
+
+  /** All must be non-null to build a valid HandicapProfile */
+  private static readonly HANDICAP_REQUIRED = [
+    'dateOfBirth',
+    'governorate',
+    'city',
+    'handicapType',
+    'occupationStatus',
+    'handicapCardId',
+  ] as const satisfies ReadonlyArray<keyof UserEntity>;
+
+  /** All must be non-null to build a valid InstitutionProfile */
+  private static readonly INSTITUTION_REQUIRED = [
+    'institutionName',
+    'institutionPhone',
+    'institutionEmail',
+    'institutionGovernorate',
+    'institutionCity',
+  ] as const satisfies ReadonlyArray<keyof UserEntity>;
+
+  /** @throws if role not loaded or if any profile has partial data */
   static toDomain(entity: UserEntity): User {
-    if (!entity.role) {
-      throw new Error('UserMapper: role must be loaded');
-    }
+    if (!entity.role) throw new Error('UserMapper: role must be eager-loaded');
 
-    // Detect handicap profile by checking if any of its fields are populated.
-    const hasHandicapProfile =
-      entity.dateOfBirth != null ||
-      entity.governorate != null ||
-      entity.city != null ||
-      entity.handicapType != null ||
-      entity.requiredAccommodation != null ||
-      entity.occupationStatus != null ||
-      entity.caregiver != null ||
-      entity.handicapCardId != null;
-    const handicapProfile: HandicapProfile | null = hasHandicapProfile
-      ? new HandicapProfile(
-          entity.dateOfBirth as Date,
-          entity.governorate as string,
-          entity.city as string,
-          entity.handicapType as string,
-          entity.requiredAccommodation ?? [],
-          entity.occupationStatus as OccupationStatus,
-          entity.caregiver ?? false,
-          entity.handicapCardId as string,
-        )
-      : null;
-
-    // Detect institution profile by checking if any of its fields are populated.
-    const hasInstitutionProfile =
-      entity.institutionName != null ||
-      entity.institutionPhone != null ||
-      entity.institutionEmail != null ||
-      entity.institutionGovernorate != null ||
-      entity.institutionCity != null ||
-      entity.website != null ||
-      entity.typeOfServices != null ||
-      entity.accessible != null ||
-      entity.specificEquipment != null;
-
-    const institutionProfile: InstitutionProfile | null = hasInstitutionProfile
-      ? new InstitutionProfile(
-          entity.institutionName as string,
-          entity.institutionPhone as string,
-          entity.institutionEmail as string,
-          entity.institutionGovernorate as string,
-          entity.institutionCity as string,
-          entity.website as string,
-          entity.typeOfServices ?? [],
-          entity.accessible ?? false,
-          entity.specificEquipment ?? [],
-        )
-      : null;
-
+    const handicapStatus = UserMapper.getProfileStatus(
+      entity,
+      UserMapper.HANDICAP_REQUIRED,
+    );
+    const institutionStatus = UserMapper.getProfileStatus(
+      entity,
+      UserMapper.INSTITUTION_REQUIRED,
+    );
+    UserMapper.assertNoPartialProfile(handicapStatus, 'HandicapProfile');
+    UserMapper.assertNoPartialProfile(institutionStatus, 'InstitutionProfile');
     return new User(
       entity.id,
       entity.fullName,
@@ -73,13 +55,16 @@ export class UserMapper {
       entity.role.id,
       entity.createdAt,
       entity.updatedAt,
-      handicapProfile,
-      institutionProfile,
+      handicapStatus === 'full' ? UserMapper.buildHandicap(entity) : null,
+      institutionStatus === 'full' ? UserMapper.buildInstitution(entity) : null,
     );
   }
 
+  /** Flattens User aggregate into a single-table UserEntity */
   static toOrm(domain: User): UserEntity {
     const entity = new UserEntity();
+    const hp = domain.handicapProfile;
+    const ip = domain.institutionProfile;
 
     entity.id = domain.id;
     entity.fullName = domain.fullName;
@@ -91,36 +76,78 @@ export class UserMapper {
     entity.createdAt = domain.createdAt;
     entity.updatedAt = domain.updatedAt;
 
-    // Handicap profile
-    entity.handicapCardId = domain.handicapProfile?.handicapCardId ?? undefined;
-    entity.dateOfBirth = domain.handicapProfile?.dateOfBirth ?? undefined;
-    entity.governorate = domain.handicapProfile?.governorate ?? undefined;
-    entity.city = domain.handicapProfile?.city ?? undefined;
-    entity.handicapType = domain.handicapProfile?.handicapType ?? undefined;
-    entity.requiredAccommodation =
-      domain.handicapProfile?.requiredAccommodation ?? undefined;
-    entity.occupationStatus =
-      domain.handicapProfile?.occupationStatus ?? undefined;
-    entity.caregiver = domain.handicapProfile?.caregiver ?? undefined;
+    // undefined when no profile — TypeORM omits null columns on save
+    entity.dateOfBirth = hp?.dateOfBirth;
+    entity.governorate = hp?.governorate;
+    entity.city = hp?.city;
+    entity.handicapType = hp?.handicapType;
+    entity.requiredAccommodation = hp?.requiredAccommodation;
+    entity.occupationStatus = hp?.occupationStatus;
+    entity.caregiver = hp?.caregiver;
+    entity.handicapCardId = hp?.handicapCardId;
 
-    // Institution profile
-    entity.institutionName =
-      domain.institutionProfile?.institutionName ?? undefined;
-    entity.institutionPhone =
-      domain.institutionProfile?.institutionPhone ?? undefined;
-    entity.institutionEmail =
-      domain.institutionProfile?.institutionEmail ?? undefined;
-    entity.institutionGovernorate =
-      domain.institutionProfile?.institutionGovernorate ?? undefined;
-    entity.institutionCity =
-      domain.institutionProfile?.institutionCity ?? undefined;
-    entity.website = domain.institutionProfile?.website ?? undefined;
-    entity.typeOfServices =
-      domain.institutionProfile?.typeOfServices ?? undefined;
-    entity.accessible = domain.institutionProfile?.accessible ?? undefined;
-    entity.specificEquipment =
-      domain.institutionProfile?.specificEquipment ?? undefined;
+    entity.institutionName = ip?.institutionName;
+    entity.institutionPhone = ip?.institutionPhone;
+    entity.institutionEmail = ip?.institutionEmail;
+    entity.institutionGovernorate = ip?.institutionGovernorate;
+    entity.institutionCity = ip?.institutionCity;
+    entity.website = ip?.website;
+    entity.typeOfServices = ip?.typeOfServices;
+    entity.accessible = ip?.accessible;
+    entity.specificEquipment = ip?.specificEquipment;
 
     return entity;
+  }
+
+  // ─── Private helpers ──────────────────────────────────────────────────────
+
+  /** Counts present required keys → 'none' | 'full' | 'partial' */
+  private static getProfileStatus(
+    entity: UserEntity,
+    keys: ReadonlyArray<keyof UserEntity>,
+  ): ProfileStatus {
+    const n = keys.filter((k) => entity[k] != null).length;
+    if (n === 0) return 'none';
+    if (n === keys.length) return 'full';
+    return 'partial';
+  }
+
+  /** Partial profile = corrupted data — fail fast */
+  private static assertNoPartialProfile(
+    status: ProfileStatus,
+    name: string,
+  ): void {
+    if (status === 'partial')
+      throw new Error(
+        `UserMapper: incomplete ${name} — all required fields must be populated or none`,
+      );
+  }
+
+  /** Safe to use ! — only called when status is 'full' */
+  private static buildHandicap(e: UserEntity): HandicapProfile {
+    return new HandicapProfile(
+      e.dateOfBirth!,
+      e.governorate!,
+      e.city!,
+      e.handicapType!,
+      e.requiredAccommodation ?? [],
+      e.occupationStatus as OccupationStatus,
+      e.caregiver ?? false,
+      e.handicapCardId!,
+    );
+  }
+
+  private static buildInstitution(e: UserEntity): InstitutionProfile {
+    return new InstitutionProfile(
+      e.institutionName!,
+      e.institutionPhone!,
+      e.institutionEmail!,
+      e.institutionGovernorate!,
+      e.institutionCity!,
+      e.website ?? '',
+      e.typeOfServices ?? [],
+      e.accessible ?? false,
+      e.specificEquipment ?? [],
+    );
   }
 }

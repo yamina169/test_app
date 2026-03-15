@@ -68,7 +68,7 @@ describe('CreateDocumentUseCase', () => {
     expect(result).toEqual(saved);
   });
 
-  it('rolls back MinIO upload when DB save fails without uow', async () => {
+  it('rolls back MinIO upload when DB save fails', async () => {
     uploadFileMock.mockResolvedValue({
       fileName: 'proof.pdf',
       fileUrl: 'https://minio/proof.pdf',
@@ -83,12 +83,13 @@ describe('CreateDocumentUseCase', () => {
     expect(deleteFileMock).toHaveBeenCalledWith('https://minio/proof.pdf');
   });
 
-  it('does not rollback MinIO when DB save fails within a transaction', async () => {
+  it('rolls back MinIO even when uow is provided and DB save fails', async () => {
     uploadFileMock.mockResolvedValue({
       fileName: 'proof.pdf',
       fileUrl: 'https://minio/proof.pdf',
     });
     uowSaveMock.mockRejectedValue(new Error('DB error'));
+    deleteFileMock.mockResolvedValue(undefined);
 
     await expect(
       makeUseCase().execute(
@@ -99,7 +100,7 @@ describe('CreateDocumentUseCase', () => {
       ),
     ).rejects.toThrow('DB error');
 
-    expect(deleteFileMock).not.toHaveBeenCalled();
+    expect(deleteFileMock).toHaveBeenCalledWith('https://minio/proof.pdf');
   });
 
   it('uses uow repository when uow is provided', async () => {

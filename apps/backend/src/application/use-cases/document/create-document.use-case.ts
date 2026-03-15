@@ -49,15 +49,12 @@ export class CreateDocumentUseCase {
     try {
       return await repo.save(document);
     } catch (err) {
-      // rollback MinIO when running outside a transaction.
-      if (!uow) {
-        this.logger.warn(`DB save failed — rolling back MinIO "${fileName}"`);
-        await this.storageService
-          .deleteFile(fileUrl)
-          .catch((e) =>
-            this.logger.error(`Rollback failed — "${fileUrl}" may remain`, e),
-          );
-      }
+      this.logger.warn(`DB save failed — rolling back MinIO "${fileName}"`);
+      await this.storageService
+        .deleteFile(fileUrl)
+        .catch((e) =>
+          this.logger.error(`Rollback failed — "${fileUrl}" may remain`, e),
+        );
       throw err;
     }
   }

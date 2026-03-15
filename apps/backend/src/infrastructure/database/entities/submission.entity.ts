@@ -40,7 +40,7 @@ export class SubmissionEntity {
   })
   submissionType: SubmissionType;
 
-  @ManyToOne(() => UserEntity, (user) => user.submissions)
+  @ManyToOne(() => UserEntity, (user) => user.submissions, { nullable: false })
   @JoinColumn({ name: 'user_id' })
   user: UserEntity;
 

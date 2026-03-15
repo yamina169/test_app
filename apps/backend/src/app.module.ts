@@ -4,7 +4,8 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLUpload } from 'graphql-upload-ts';
-
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 import { dbConfig } from '@infrastructure/config/env/database.config';
 import { minioConfig } from '@infrastructure/config/env/minio.config';
 import { ormConfig } from '@infrastructure/database/orm.config';
@@ -45,5 +46,7 @@ import { UserModule } from './modules/user.module';
     SubmissionModule,
     UserModule,
   ],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

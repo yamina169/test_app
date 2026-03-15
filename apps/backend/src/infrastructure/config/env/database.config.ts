@@ -1,16 +1,27 @@
 import { registerAs } from '@nestjs/config';
 
+const env = (key: string) => process.env[key];
+const requireEnv = (key: string) => {
+  const v = env(key);
+  if (!v) throw new Error(`Missing env var: "${key}"`);
+  return v;
+};
+
 export const dbConfig = registerAs('database', () => {
-  const env = process.env.NODE_ENV || 'development';
-  const isTest = env === 'test';
+  const isTest = (env('NODE_ENV') ?? 'development') === 'test';
+  const port = parseInt(env('POSTGRES_PORT') ?? '5432', 10);
 
   return {
-    host: process.env.POSTGRES_HOST,
-    port: parseInt(process.env.POSTGRES_PORT as string, 10),
-    username: process.env.POSTGRES_USER,
-    password: process.env.POSTGRES_PASSWORD,
-    database: isTest ? process.env.POSTGRES_DB_TEST : process.env.POSTGRES_DB,
+    host: requireEnv('POSTGRES_HOST'),
+    port: Number.isNaN(port)
+      ? (() => {
+          throw new Error('Invalid POSTGRES_PORT');
+        })()
+      : port,
+    username: requireEnv('POSTGRES_USER'),
+    password: requireEnv('POSTGRES_PASSWORD'),
+    database: requireEnv(isTest ? 'POSTGRES_DB_TEST' : 'POSTGRES_DB'),
     isTest,
-    isDev: env === 'development',
+    isDev: (env('NODE_ENV') ?? 'development') === 'development',
   };
 });
