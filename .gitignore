@@ -1,0 +1,11 @@
+node_modules
+.env
+dist
+.next
+coverage
+*.log
+apps/backend/src/schema.gql
+# Ignore all environment files
+.env*
+# But keep the example file
+!.env.example
