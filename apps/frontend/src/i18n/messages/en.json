@@ -1,0 +1,107 @@
+{
+    "common": {
+        "required": "Required"
+    },
+    "accessibility": {
+        "skipToContent": "Skip to main content"
+    },
+    "nav": {
+        "homeAriaLabel": "Sabilouna - Home",
+        "logoAlt": "Sabilouna",
+        "homeLinkText": "Home",
+        "mainNav": "Main navigation",
+        "mobileNav": "Mobile navigation",
+        "menu": "Menu",
+        "openMenu": "Open menu",
+        "language": "Language",
+        "home": "Home",
+        "mission": "Our Mission",
+        "contact": "Contact",
+        "localeName": {
+            "en": "English",
+            "fr": "Français",
+            "ar": "العربية"
+        }
+    },
+    "hero": {
+        "badge": "Inclusion for everyone",
+        "title": "Your Gateway to Inclusive Services",
+        "description": "Sabilouna helps citizens and people with disabilities find safe spaces, access services, and complete administrative procedures — all in one place.",
+        "ctaPrimary": "Get Started",
+        "ctaSecondary": "Browse Services"
+    },
+    "services": {
+        "heading": "Everything You Need",
+        "description": "Comprehensive tools and services designed with accessibility at their core.",
+        "items": {
+            "safeSpaces": {
+                "title": "Find Safe Spaces",
+                "description": "Discover accessibility-verified locations, safe environments, and inclusive spaces near you."
+            },
+            "submitForms": {
+                "title": "Submit Forms",
+                "description": "Accessible digital forms with assistive support, auto-save, and multi-language options."
+            },
+            "aiAssistant": {
+                "title": "AI Assistant",
+                "description": "Get personalized guidance and instant answers powered by our inclusive AI assistant."
+            },
+            "trackStatus": {
+                "title": "Track Status",
+                "description": "Monitor your applications and service requests with real-time accessible dashboards."
+            },
+            "accessibleDesign": {
+                "title": "Accessible Design",
+                "description": "Every feature is built for accessibility compliance with adaptable interfaces."
+            },
+            "nearbyServices": {
+                "title": "Nearby Services",
+                "description": "Location-based service discovery with detailed accessibility information for each venue."
+            }
+        }
+    },
+    "mobile": {
+        "eyebrow": "MOBILE EXPERIENCE",
+        "title": "Accessible Anywhere",
+        "description": "Sabilouna is fully optimized for mobile access.",
+        "features": {
+            "otp": "OTP & Magic Link login — no password needed",
+            "modes": "Accessibility modes: high contrast, large text, reduced motion",
+            "submit": "Submit and track requests easily",
+            "filter": "Filter institutions by proximity"
+        },
+        "store": {
+            "appStore": "App Store",
+            "googlePlay": "Google Play",
+            "appStoreAria": "Download on the App Store",
+            "googlePlayAria": "Get it on Google Play"
+        },
+        "footnote": "Mobile app mockup for preview purposes."
+    },
+    "contact": {
+        "heading": "Get in Touch",
+        "description": "Have a question or need assistance? We're here to help.",
+        "fields": {
+            "fullName": "Full Name",
+            "email": "Email Address",
+            "subject": "Subject",
+            "message": "Message"
+        },
+        "actions": {
+            "send": "Send Message"
+        },
+        "success": {
+            "title": "Message sent successfully!",
+            "subtitle": "We'll respond as soon as possible.",
+            "sendAnother": "Send another message"
+        },
+        "errors": {
+            "summaryTitle": "Please correct the following errors:",
+            "fullNameRequired": "Full name is required.",
+            "emailRequired": "Email address is required.",
+            "emailInvalid": "Please enter a valid email address.",
+            "subjectRequired": "Subject is required.",
+            "messageRequired": "Message is required."
+        }
+    }
+}
