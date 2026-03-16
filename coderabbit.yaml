@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+language: "en-US"
+early_access: false
+
+reviews:
+  profile: "assertive" # Ton assertif pour détecter les problèmes
+  request_changes_workflow: false
+  high_level_summary: true # Résumé général en début de review
+  review_status: true # Affiche le statut de la review
+  review_details: false # Pas de détails internes, juste les problèmes
+  sequence_diagrams: false # Pas de diagrammes
+  changed_files_summary: false # Ignore le résumé détaillé des fichiers
+  suggested_labels: false # Pas de suggestions de labels
+  suggested_reviewers: false # Pas de suggestions de reviewers
+  related_issues: false # Ignore les issues liées
+  related_prs: false # Ignore les PR liées
+
+auto_review:
+  enabled: true # Active la review automatique
+  drafts: false # Ignore les PR drafts
+  base_branches:
+    - "develop" # Review automatique sur ces branches
+
+chat:
+  auto_reply: false # Pas de réponses automatiques
