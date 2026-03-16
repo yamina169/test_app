@@ -68,7 +68,7 @@ describe('CreateDocumentUseCase', () => {
     expect(result).toEqual(saved);
   });
 
-  it('rolls back MinIO upload when DB save fails', async () => {
+  it('rolls back MinIO upload when DB save fails without uow', async () => {
     uploadFileMock.mockResolvedValue({
       fileName: 'proof.pdf',
       fileUrl: 'https://minio/proof.pdf',

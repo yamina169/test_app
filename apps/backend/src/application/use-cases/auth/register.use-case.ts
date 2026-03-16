@@ -35,8 +35,10 @@ const SUBMISSION_TYPE_MAP: Record<string, SubmissionType> = {
 };
 
 /**
- * Registers a new user with
+ * Registers a new user with optional profile and supporting documents.
  * Orchestrates user creation, submission, and file uploads within a single transaction.
+ * Files that succeed upload but whose transaction later fails are cleaned up via rollbackStorage.
+ * Files that fail at DB save are cleaned up by CreateDocumentUseCase directly.
  */
 @Injectable()
 export class RegisterUserUseCase {
@@ -50,6 +52,7 @@ export class RegisterUserUseCase {
     private readonly userRepository: IUserRepository,
     @Inject('IRoleRepository')
     private readonly roleRepository: IRoleRepository,
+    /** Used to rollback MinIO uploads for files that succeeded but whose transaction failed. */
     @Inject('IStorageService')
     private readonly storageService: IStorageService,
     private readonly createSubmissionUseCase: CreateSubmissionUseCase,
@@ -120,6 +123,7 @@ export class RegisterUserUseCase {
             submissionId,
             this.uow,
           );
+          // Track only successfully saved documents for rollback on later failures.
           uploadedFileUrls.push(doc.fileUrl);
         }
       }
@@ -133,7 +137,10 @@ export class RegisterUserUseCase {
     }
   }
 
-  /** Deletes all successfully uploaded files when the transaction fails. */
+  /**
+   * Deletes MinIO files that were successfully uploaded and DB-saved
+   * but whose transaction was later rolled back.
+   */
   private async rollbackStorage(fileUrls: string[]): Promise<void> {
     if (!fileUrls.length) return;
     this.logger.warn(`Rolling back ${fileUrls.length} MinIO upload(s)`);
