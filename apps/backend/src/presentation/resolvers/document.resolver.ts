@@ -14,7 +14,7 @@ import { streamToBuffer } from '@common/utils/stream.utils';
 export class DocumentResolver {
   constructor(private readonly createDocumentUseCase: CreateDocumentUseCase) {}
 
-  /** Uploads a file to storage and saves the document record.*/
+  /** Uploads a file to storage and saves the document record. */
   @Mutation(() => DocumentObjectType)
   async uploadDocument(
     @Args('submissionId', { type: () => ID }) submissionId: string,
@@ -26,7 +26,7 @@ export class DocumentResolver {
 
     return this.createDocumentUseCase.execute(
       {
-        buffer: new Uint8Array(buffer),
+        buffer,
         fileName: resolvedFile.filename,
         mimeType: resolvedFile.mimetype,
       },

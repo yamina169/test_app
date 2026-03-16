@@ -28,41 +28,32 @@ import { CreateDocumentUseCase } from '../document/create-document.use-case';
 
 type FileEntry = { file: UploadedFile; documentType: DocumentType };
 
-/** Maps role types to their corresponding submission type on registration. */
 const SUBMISSION_TYPE_MAP: Record<string, SubmissionType> = {
   HANDICAP_USER: SubmissionType.REGISTRATION_HANDICAP_USER,
   INSTITUTION_ADMIN: SubmissionType.REGISTRATION_INSTITUTION,
 };
 
 /**
- * Registers a new user with optional profile and supporting documents.
- * Orchestrates user creation, submission, and file uploads within a single transaction.
- * Files that succeed upload but whose transaction later fails are cleaned up via rollbackStorage.
- * Files that fail at DB save are cleaned up by CreateDocumentUseCase directly.
+ * Registers a new user, optionally creating a submission with supporting documents.
+ * All DB writes are wrapped in a single transaction; MinIO uploads are rolled back on failure.
  */
 @Injectable()
 export class RegisterUserUseCase {
   private readonly logger = new Logger(RegisterUserUseCase.name);
 
   constructor(
-    @Inject('IUnitOfWork')
-    private readonly uow: IUnitOfWork,
-    /** Injected outside the UnitOfWork to allow pre-checks before the transaction starts. */
-    @Inject('IUserRepository')
-    private readonly userRepository: IUserRepository,
-    @Inject('IRoleRepository')
-    private readonly roleRepository: IRoleRepository,
-    /** Used to rollback MinIO uploads for files that succeeded but whose transaction failed. */
-    @Inject('IStorageService')
-    private readonly storageService: IStorageService,
+    @Inject('IUnitOfWork') private readonly uow: IUnitOfWork,
+    @Inject('IUserRepository') private readonly userRepository: IUserRepository,
+    @Inject('IRoleRepository') private readonly roleRepository: IRoleRepository,
+    @Inject('IStorageService') private readonly storageService: IStorageService,
     private readonly createSubmissionUseCase: CreateSubmissionUseCase,
     private readonly createDocumentUseCase: CreateDocumentUseCase,
   ) {}
 
   async execute(dto: RegisterUserDto, files: FileEntry[] = []): Promise<User> {
-    // Pre-checks run outside the transaction to avoid holding DB locks unnecessarily.
     const now = new Date();
 
+    // Run pre-checks in parallel before opening a transaction to avoid unnecessary DB locks.
     const [role, existing] = await Promise.all([
       this.roleRepository.findById(dto.roleId),
       this.userRepository.findByEmail(dto.email),
@@ -72,18 +63,17 @@ export class RegisterUserUseCase {
     if (existing) throw new ConflictException('Email already in use');
 
     const submissionType = SUBMISSION_TYPE_MAP[role.type] ?? null;
+
     if (submissionType && files.length === 0)
       throw new BadRequestException('At least one document is required');
 
-    // Reject duplicate files before opening a transaction.
-    const hashes = files.map((entry) =>
-      createHash('sha256').update(entry.file.buffer).digest('hex'),
+    // Reject duplicate files early to avoid partial uploads inside the transaction.
+    const hashes = files.map(({ file }) =>
+      createHash('sha256').update(file.buffer).digest('hex'),
     );
     if (hashes.length !== new Set(hashes).size)
       throw new BadRequestException('Duplicate files are not allowed');
-
     const uploadedFileUrls: string[] = [];
-
     await this.uow.begin();
 
     try {
@@ -102,13 +92,12 @@ export class RegisterUserUseCase {
           ? this.buildInstitutionProfile(dto)
           : null,
       );
-
       const savedUser = await this.uow.userRepository.save(user);
 
       if (submissionType) {
+        // Pre-generate the submission ID so documents can reference it before they are persisted.
         const submissionId = uuid();
 
-        // Pre-generate submissionId to link documents before they are saved.
         await this.createSubmissionUseCase.execute(
           { title: 'Registration Submission', submissionType },
           savedUser.id,
@@ -123,7 +112,6 @@ export class RegisterUserUseCase {
             submissionId,
             this.uow,
           );
-          // Track only successfully saved documents for rollback on later failures.
           uploadedFileUrls.push(doc.fileUrl);
         }
       }
@@ -137,10 +125,6 @@ export class RegisterUserUseCase {
     }
   }
 
-  /**
-   * Deletes MinIO files that were successfully uploaded and DB-saved
-   * but whose transaction was later rolled back.
-   */
   private async rollbackStorage(fileUrls: string[]): Promise<void> {
     if (!fileUrls.length) return;
     this.logger.warn(`Rolling back ${fileUrls.length} MinIO upload(s)`);
@@ -153,7 +137,7 @@ export class RegisterUserUseCase {
     );
   }
 
-  /** Validates and constructs the handicap profile from the registration DTO. */
+  /** Validates and builds the handicap profile from the DTO. */
   private buildHandicapProfile(dto: RegisterUserDto): HandicapProfile {
     const {
       dateOfBirth,
@@ -165,6 +149,7 @@ export class RegisterUserUseCase {
       caregiver,
       handicapCardId,
     } = dto;
+
     if (
       !dateOfBirth ||
       !governorate ||
@@ -176,6 +161,7 @@ export class RegisterUserUseCase {
       !handicapCardId
     )
       throw new BadRequestException('Missing handicap profile fields');
+
     return new HandicapProfile(
       dateOfBirth,
       governorate,
@@ -188,7 +174,7 @@ export class RegisterUserUseCase {
     );
   }
 
-  /** Validates and constructs the institution profile from the registration DTO. */
+  /** Validates and builds the institution profile from the DTO. */
   private buildInstitutionProfile(dto: RegisterUserDto): InstitutionProfile {
     const {
       institutionName,
@@ -201,6 +187,7 @@ export class RegisterUserUseCase {
       accessible,
       specificEquipment,
     } = dto;
+
     if (
       !institutionName ||
       !institutionPhone ||
@@ -213,6 +200,7 @@ export class RegisterUserUseCase {
       !specificEquipment
     )
       throw new BadRequestException('Missing institution profile fields');
+
     return new InstitutionProfile(
       institutionName,
       institutionPhone,

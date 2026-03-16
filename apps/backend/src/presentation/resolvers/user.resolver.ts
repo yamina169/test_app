@@ -22,6 +22,7 @@ export class UserResolver {
   async getUsers(): Promise<UserObjectType[]> {
     return this.userRepository.findAll() as Promise<UserObjectType[]>;
   }
+
   /** Registers a new user */
   @Mutation(() => UserObjectType)
   async registerUser(
@@ -37,7 +38,7 @@ export class UserResolver {
         const buffer = await streamToBuffer(resolvedFile.createReadStream());
         return {
           file: {
-            buffer: new Uint8Array(buffer),
+            buffer,
             fileName: resolvedFile.filename,
             mimeType: resolvedFile.mimetype,
           },
