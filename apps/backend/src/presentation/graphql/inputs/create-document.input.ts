@@ -1,6 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { IsEnum, IsNotEmpty } from 'class-validator';
-import { DocumentType } from '@common/enums/document.enum';
+import { DocumentType } from '@domain/enums/document.enum';
 
 @InputType()
 export class CreateDocumentInput {

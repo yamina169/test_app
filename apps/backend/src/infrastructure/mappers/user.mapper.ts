@@ -3,69 +3,55 @@ import {
   InstitutionProfile,
   User,
 } from '@domain/entities/user.entity';
-import { OccupationStatus } from '@common/enums/user.enum';
 import { UserEntity } from '../database/entities/user.entity';
 import { RoleEntity } from '../database/entities/role.entity';
 
-/**
- * Maps between the UserEntity (ORM) and the User domain model.
- * Reconstructs HandicapProfile and InstitutionProfile from flat table columns.
- */
 export class UserMapper {
   static toDomain(entity: UserEntity): User {
     if (!entity.role) {
       throw new Error('UserMapper: role must be loaded');
     }
 
-    // Detect handicap profile by checking if any of its fields are populated.
-    // Après — handicapCardId ajouté
-    const hasHandicapProfile =
-      entity.dateOfBirth != null ||
-      entity.governorate != null ||
-      entity.city != null ||
-      entity.handicapType != null ||
-      entity.requiredAccommodation != null ||
-      entity.occupationStatus != null ||
-      entity.caregiver != null ||
-      entity.handicapCardId != null;
-    const handicapProfile: HandicapProfile | null = hasHandicapProfile
-      ? new HandicapProfile(
-          entity.dateOfBirth as Date,
-          entity.governorate as string,
-          entity.city as string,
-          entity.handicapType as string,
-          entity.requiredAccommodation ?? [],
-          entity.occupationStatus as OccupationStatus,
-          entity.caregiver ?? false,
-          entity.handicapCardId as string,
-        )
-      : null;
+    let handicapProfile: HandicapProfile | null = null;
+    if (
+      entity.dateOfBirth != null &&
+      entity.governorate != null &&
+      entity.city != null &&
+      entity.handicapType != null &&
+      entity.occupationStatus != null
+    ) {
+      handicapProfile = new HandicapProfile(
+        entity.dateOfBirth,
+        entity.governorate,
+        entity.city,
+        entity.handicapType,
+        entity.requiredAccommodation ?? [],
+        entity.occupationStatus,
+        entity.caregiver ?? false,
+        entity.handicapCardId ?? '',
+      );
+    }
 
-    // Detect institution profile by checking if any of its fields are populated.
-    const hasInstitutionProfile =
-      entity.institutionName != null ||
-      entity.institutionPhone != null ||
-      entity.institutionEmail != null ||
-      entity.institutionGovernorate != null ||
-      entity.institutionCity != null ||
-      entity.website != null ||
-      entity.typeOfServices != null ||
-      entity.accessible != null ||
-      entity.specificEquipment != null;
-
-    const institutionProfile: InstitutionProfile | null = hasInstitutionProfile
-      ? new InstitutionProfile(
-          entity.institutionName as string,
-          entity.institutionPhone as string,
-          entity.institutionEmail as string,
-          entity.institutionGovernorate as string,
-          entity.institutionCity as string,
-          entity.website as string,
-          entity.typeOfServices ?? [],
-          entity.accessible ?? false,
-          entity.specificEquipment ?? [],
-        )
-      : null;
+    let institutionProfile: InstitutionProfile | null = null;
+    if (
+      entity.institutionName != null &&
+      entity.institutionPhone != null &&
+      entity.institutionEmail != null &&
+      entity.institutionGovernorate != null &&
+      entity.institutionCity != null
+    ) {
+      institutionProfile = new InstitutionProfile(
+        entity.institutionName,
+        entity.institutionPhone,
+        entity.institutionEmail,
+        entity.institutionGovernorate,
+        entity.institutionCity,
+        entity.website ?? '',
+        entity.typeOfServices ?? [],
+        entity.accessible ?? false,
+        entity.specificEquipment ?? [],
+      );
+    }
 
     return new User(
       entity.id,
@@ -95,35 +81,30 @@ export class UserMapper {
     entity.createdAt = domain.createdAt;
     entity.updatedAt = domain.updatedAt;
 
-    // Handicap profile — undefined collapses nullable columns to NULL in DB.
-    entity.handicapCardId = domain.handicapProfile?.handicapCardId ?? undefined;
-    entity.dateOfBirth = domain.handicapProfile?.dateOfBirth ?? undefined;
-    entity.governorate = domain.handicapProfile?.governorate ?? undefined;
-    entity.city = domain.handicapProfile?.city ?? undefined;
-    entity.handicapType = domain.handicapProfile?.handicapType ?? undefined;
-    entity.requiredAccommodation =
-      domain.handicapProfile?.requiredAccommodation ?? undefined;
-    entity.occupationStatus =
-      domain.handicapProfile?.occupationStatus ?? undefined;
-    entity.caregiver = domain.handicapProfile?.caregiver ?? undefined;
+    if (domain.handicapProfile) {
+      entity.handicapCardId = domain.handicapProfile.handicapCardId;
+      entity.dateOfBirth = domain.handicapProfile.dateOfBirth;
+      entity.governorate = domain.handicapProfile.governorate;
+      entity.city = domain.handicapProfile.city;
+      entity.handicapType = domain.handicapProfile.handicapType;
+      entity.requiredAccommodation =
+        domain.handicapProfile.requiredAccommodation;
+      entity.occupationStatus = domain.handicapProfile.occupationStatus;
+      entity.caregiver = domain.handicapProfile.caregiver;
+    }
 
-    // Institution profile — undefined collapses nullable columns to NULL in DB.
-    entity.institutionName =
-      domain.institutionProfile?.institutionName ?? undefined;
-    entity.institutionPhone =
-      domain.institutionProfile?.institutionPhone ?? undefined;
-    entity.institutionEmail =
-      domain.institutionProfile?.institutionEmail ?? undefined;
-    entity.institutionGovernorate =
-      domain.institutionProfile?.institutionGovernorate ?? undefined;
-    entity.institutionCity =
-      domain.institutionProfile?.institutionCity ?? undefined;
-    entity.website = domain.institutionProfile?.website ?? undefined;
-    entity.typeOfServices =
-      domain.institutionProfile?.typeOfServices ?? undefined;
-    entity.accessible = domain.institutionProfile?.accessible ?? undefined;
-    entity.specificEquipment =
-      domain.institutionProfile?.specificEquipment ?? undefined;
+    if (domain.institutionProfile) {
+      entity.institutionName = domain.institutionProfile.institutionName;
+      entity.institutionPhone = domain.institutionProfile.institutionPhone;
+      entity.institutionEmail = domain.institutionProfile.institutionEmail;
+      entity.institutionGovernorate =
+        domain.institutionProfile.institutionGovernorate;
+      entity.institutionCity = domain.institutionProfile.institutionCity;
+      entity.website = domain.institutionProfile.website;
+      entity.typeOfServices = domain.institutionProfile.typeOfServices;
+      entity.accessible = domain.institutionProfile.accessible;
+      entity.specificEquipment = domain.institutionProfile.specificEquipment;
+    }
 
     return entity;
   }

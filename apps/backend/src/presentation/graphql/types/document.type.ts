@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
-import { DocumentType as DocumentTypeEnum } from '@common/enums/document.enum';
+import { DocumentType as DocumentTypeEnum } from '@domain/enums/document.enum';
 
 registerEnumType(DocumentTypeEnum, { name: 'DocumentType' });
 

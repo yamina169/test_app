@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -6,7 +6,7 @@ import { ISubmissionRepository } from '@domain/interfaces/submission.repository.
 import { SubmissionEntity } from '../database/entities/submission.entity';
 import { Submission } from '@domain/entities/submission.entity';
 import { SubmissionMapper } from '../mappers/submission.mapper';
-import { SubmissionType } from '@common/enums/submission.enum';
+import { SubmissionType } from '@domain/enums/submission.enum';
 
 @Injectable()
 export class SubmissionRepository implements ISubmissionRepository {
@@ -15,7 +15,6 @@ export class SubmissionRepository implements ISubmissionRepository {
     private readonly repo: Repository<SubmissionEntity>,
   ) {}
 
-  /** Injects a transactional repo from UnitOfWork. */
   withRepo(repo: Repository<SubmissionEntity>): SubmissionRepository {
     return new SubmissionRepository(repo);
   }
@@ -60,7 +59,7 @@ export class SubmissionRepository implements ISubmissionRepository {
     });
 
     if (!withRelations)
-      throw new NotFoundException(`Submission with id ${saved.id} not found`);
+      throw new Error(`Submission with id ${saved.id} not found`);
 
     return SubmissionMapper.toDomain(withRelations);
   }

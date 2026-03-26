@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -14,7 +14,6 @@ export class UserRepository implements IUserRepository {
     private readonly repo: Repository<UserEntity>,
   ) {}
 
-  /** Injects a transactional repo from UnitOfWork. */
   withRepo(repo: Repository<UserEntity>): UserRepository {
     return new UserRepository(repo);
   }
@@ -51,8 +50,7 @@ export class UserRepository implements IUserRepository {
       relations: ['role'],
     });
 
-    if (!withRelations)
-      throw new NotFoundException(`User with id ${saved.id} not found`);
+    if (!withRelations) throw new Error(`User with id ${saved.id} not found`);
 
     return UserMapper.toDomain(withRelations);
   }

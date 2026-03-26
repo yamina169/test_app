@@ -1,5 +1,5 @@
 import { Document } from '@domain/entities/document.entity';
-import { DocumentType } from '@common/enums/document.enum';
+import { DocumentType } from '@domain/enums/document.enum';
 
 export interface IDocumentRepository {
   findById(id: string): Promise<Document | null>;

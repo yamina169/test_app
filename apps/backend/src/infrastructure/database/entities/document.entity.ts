@@ -7,7 +7,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { SubmissionEntity } from './submission.entity';
-import { DocumentType } from '@common/enums/document.enum';
+import { DocumentType } from '@domain/enums/document.enum';
 
 @Entity('documents')
 export class DocumentEntity {

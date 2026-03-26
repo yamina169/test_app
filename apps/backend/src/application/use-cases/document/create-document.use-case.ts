@@ -1,11 +1,12 @@
 import { Injectable, Inject, Logger } from '@nestjs/common';
 import { v4 as uuid } from 'uuid';
+
 import type { IDocumentRepository } from '@domain/interfaces/document.repository.interface';
 import type { IStorageService } from '@domain/interfaces/storage.service.interface';
 import type { IUnitOfWork } from '@domain/interfaces/unit-of-work.interface';
 import type { UploadedFile } from '@domain/interfaces/uploaded-file.interface';
 import { Document } from '@domain/entities/document.entity';
-import { DocumentType } from '@common/enums/document.enum';
+import { DocumentType } from '@domain/enums/document.enum';
 
 @Injectable()
 export class CreateDocumentUseCase {
@@ -19,22 +20,24 @@ export class CreateDocumentUseCase {
   ) {}
 
   /**
-   * @param uow - Optional. When provided, the document is saved within the
-   *              caller's transaction. When omitted, executes independently.
+   * Uploads a file to storage and persists the document record.
+   *
+   * @param uow - When provided, the document is saved within the caller's transaction.
+   *              Storage rollback on failure is the caller's responsibility.
+   *              When omitted, rolls back the storage upload if the DB write fails.
+   * @param submissionId - Scopes the storage object key. Defaults to `'standalone'` if omitted.
    */
   async execute(
     file: UploadedFile,
     documentType: DocumentType,
-    submissionId: string,
+    submissionId?: string,
     uow?: IUnitOfWork,
   ): Promise<Document> {
     const repo = uow?.documentRepository ?? this.documentRepository;
 
     const { fileName, fileUrl } = await this.storageService.uploadFile(
-      file.buffer,
-      file.fileName,
-      file.mimeType,
-      submissionId,
+      file,
+      submissionId ?? 'standalone',
     );
 
     const document = new Document(
@@ -42,18 +45,22 @@ export class CreateDocumentUseCase {
       fileName,
       fileUrl,
       documentType,
-      submissionId,
+      submissionId ?? null,
       new Date(),
     );
+
+    if (uow) {
+      return repo.save(document);
+    }
 
     try {
       return await repo.save(document);
     } catch (err) {
-      this.logger.warn(`DB save failed — rolling back MinIO "${fileName}"`);
+      this.logger.warn(`DB save failed — rolling back storage "${fileName}"`);
       await this.storageService
-        .deleteFile(fileUrl)
+        .deleteFile(fileName)
         .catch((e) =>
-          this.logger.error(`Rollback failed — "${fileUrl}" may remain`, e),
+          this.logger.error(`Rollback failed — "${fileName}" may remain`, e),
         );
       throw err;
     }

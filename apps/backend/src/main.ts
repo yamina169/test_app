@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
+import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import {
   FastifyAdapter,
   NestFastifyApplication,
@@ -8,21 +8,18 @@ import {
 import { processRequest } from 'graphql-upload-ts';
 import type { FastifyRequest, FastifyReply } from 'fastify';
 import type { IncomingMessage, ServerResponse } from 'http';
-import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ bodyLimit: 50_000_000 }),
+    new FastifyAdapter(),
   );
-
-  const config = app.get(ConfigService);
 
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      forbidNonWhitelisted: true,
       transform: true,
+      forbidNonWhitelisted: true,
     }),
   );
 
@@ -39,7 +36,6 @@ async function bootstrap() {
     },
   );
 
-  /** Processes GraphQL file uploads before route validation.*/
   fastify.addHook(
     'preValidation',
     async (request: FastifyRequest, reply: FastifyReply) => {
@@ -49,19 +45,15 @@ async function bootstrap() {
       request.body = await processRequest(
         request.raw,
         reply.raw as ServerResponse,
-        {
-          maxFileSize: 10_000_000,
-          maxFiles: 10,
-        },
       );
     },
   );
 
   app.enableCors({
-    origin: config.getOrThrow<string>('FRONTEND_URL'),
+    origin: process.env.FRONTEND_URL ?? 'http://localhost:3000',
   });
 
-  await app.listen(config.getOrThrow<number>('BACKEND_PORT'), '0.0.0.0');
+  await app.listen(process.env.PORT ?? '3001');
 }
 
 void bootstrap();

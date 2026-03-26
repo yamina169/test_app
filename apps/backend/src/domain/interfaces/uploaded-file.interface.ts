@@ -1,5 +1,5 @@
 export interface UploadedFile {
-  buffer: Uint8Array; /** Raw binary content of the file. */
+  buffer: Uint8Array;
   fileName: string;
   mimeType: string;
 }

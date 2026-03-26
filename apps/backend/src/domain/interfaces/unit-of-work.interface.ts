@@ -8,7 +8,7 @@ export interface IUnitOfWork {
   submissionRepository: ISubmissionRepository;
   documentRepository: IDocumentRepository;
 
-  begin(): Promise<void>; // Start the transaction
-  commit(): Promise<void>; // Persist all changes
-  rollback(): Promise<void>; // Revert on failure
+  begin(): Promise<void>;
+  commit(): Promise<void>;
+  rollback(): Promise<void>;
 }

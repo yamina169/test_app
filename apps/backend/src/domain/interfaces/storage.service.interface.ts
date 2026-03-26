@@ -1,10 +1,13 @@
+import { UploadedFile } from './uploaded-file.interface';
+
+export const STORAGE_SERVICE_PORT = Symbol('IStorageService');
+
 export interface IStorageService {
   uploadFile(
-    file: Uint8Array,
-    originalName: string,
-    mimeType: string,
-    submissionId: string,
+    file: UploadedFile,
+    submissionId?: string,
   ): Promise<{ fileName: string; fileUrl: string }>;
 
   deleteFile(ref: string): Promise<void>;
+  fileExists(ref: string): Promise<boolean>;
 }

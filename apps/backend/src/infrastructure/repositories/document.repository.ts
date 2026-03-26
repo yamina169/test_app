@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -6,7 +6,7 @@ import { IDocumentRepository } from '@domain/interfaces/document.repository.inte
 import { DocumentEntity } from '../database/entities/document.entity';
 import { Document } from '@domain/entities/document.entity';
 import { DocumentMapper } from '../mappers/document.mapper';
-import { DocumentType } from '@common/enums/document.enum';
+import { DocumentType } from '@domain/enums/document.enum';
 
 @Injectable()
 export class DocumentRepository implements IDocumentRepository {
@@ -15,7 +15,7 @@ export class DocumentRepository implements IDocumentRepository {
     private readonly repo: Repository<DocumentEntity>,
   ) {}
 
-  /** Injects a transactional repo from UnitOfWork. */
+  // allows UnitOfWork to swap in a transactional manager without re-injecting the full repository
   withRepo(repo: Repository<DocumentEntity>): DocumentRepository {
     return new DocumentRepository(repo);
   }
@@ -60,7 +60,7 @@ export class DocumentRepository implements IDocumentRepository {
     });
 
     if (!withRelations)
-      throw new NotFoundException(`Document with id ${saved.id} not found`);
+      throw new Error(`Document with id ${saved.id} disappeared after save`);
 
     return DocumentMapper.toDomain(withRelations);
   }

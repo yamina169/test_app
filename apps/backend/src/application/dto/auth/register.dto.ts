@@ -13,7 +13,7 @@ import {
   IsInt,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { OccupationStatus } from '@common/enums/user.enum';
+import { OccupationStatus } from '@domain/enums/user.enum';
 
 export class RegisterUserDto {
   @IsNotEmpty()
@@ -40,7 +40,9 @@ export class RegisterUserDto {
   @IsInt()
   @Type(() => Number)
   roleId: number;
-
+  @IsString()
+  @IsNotEmpty()
+  emailVerificationToken: string;
   // Handicap profile fields
 
   @IsOptional()

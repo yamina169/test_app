@@ -1,52 +1,44 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { GraphQLModule } from '@nestjs/graphql';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { Module } from '@nestjs/common';
+import { GraphQLModule } from '@nestjs/graphql';
+import { ConfigModule } from '@nestjs/config';
 import { GraphQLUpload } from 'graphql-upload-ts';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import * as path from 'path';
+
+import { MailModule } from '@infrastructure/integrations/mail/mail.module';
+import { DatabaseModule } from '@infrastructure/database/database.module';
+import appConfig from '@infrastructure/config/env/app.config';
 import { dbConfig } from '@infrastructure/config/env/database.config';
+import mailConfig from '@infrastructure/config/env/mail.config';
 import { minioConfig } from '@infrastructure/config/env/minio.config';
-import { ormConfig } from '@infrastructure/database/orm.config';
-import { graphQlConfig } from '@infrastructure/config/env/graphql.config';
 import { envValidationSchema } from '@infrastructure/config/validation/env.validation';
-import { MinioModule } from '@infrastructure/integrations/minio/minio.module';
-import { RoleModule } from './modules/role.module';
+
+import { AuthModule } from './modules/auth.module';
 import { DocumentModule } from './modules/document.module';
 import { SubmissionModule } from './modules/submission.module';
-import { UserModule } from './modules/user.module';
+import { RoleModule } from './modules/role.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      envFilePath: path.resolve(__dirname, '../../../../.env'),
+      load: [dbConfig, appConfig, mailConfig, minioConfig],
       validationSchema: envValidationSchema,
-      load: [dbConfig, minioConfig],
-      envFilePath: '../../.env',
     }),
-
-    TypeOrmModule.forRootAsync(ormConfig),
-
-    GraphQLModule.forRootAsync<ApolloDriverConfig>({
+    GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
-      inject: [ConfigService],
-      useFactory: (config: ConfigService) => ({
-        ...graphQlConfig,
-        introspection: config.get<string>('NODE_ENV') !== 'production',
-        buildSchemaOptions: {
-          scalarsMap: [{ type: () => GraphQLUpload, scalar: GraphQLUpload }],
-        },
-      }),
+      autoSchemaFile: 'src/schema.gql',
+      buildSchemaOptions: {
+        scalarsMap: [{ type: () => GraphQLUpload, scalar: GraphQLUpload }],
+      },
     }),
-
-    MinioModule,
-    RoleModule,
+    DatabaseModule,
+    MailModule,
+    AuthModule,
     DocumentModule,
     SubmissionModule,
-    UserModule,
+    RoleModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

@@ -13,7 +13,7 @@ import { DocumentEntity } from './document.entity';
 import {
   SubmissionStatus,
   SubmissionType,
-} from '@common/enums/submission.enum';
+} from '@domain/enums/submission.enum';
 
 @Entity('submissions')
 export class SubmissionEntity {

@@ -15,12 +15,18 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
-      //use alias
-      "@domain/*": ["domain/*"],
-      "@common/*": ["common/*"],
-      "@application/*": ["application/*"],
-      "@infrastructure/*": ["infrastructure/*"],
-      "@presentation/*": ["presentation/*"]
+      "@domain/*": [
+        "domain/*"
+      ],
+      "@application/*": [
+        "application/*"
+      ],
+      "@infrastructure/*": [
+        "infrastructure/*"
+      ],
+      "@presentation/*": [
+        "presentation/*"
+      ]
     },
     "incremental": true,
     "skipLibCheck": true,

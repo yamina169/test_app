@@ -1,5 +1,5 @@
 import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
-import { AccountStatus, OccupationStatus } from '@common/enums/user.enum';
+import { AccountStatus, OccupationStatus } from '@domain/enums/user.enum';
 
 registerEnumType(AccountStatus, { name: 'AccountStatus' });
 registerEnumType(OccupationStatus, { name: 'OccupationStatus' });

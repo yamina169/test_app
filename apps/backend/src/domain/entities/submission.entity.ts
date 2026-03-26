@@ -1,7 +1,7 @@
 import {
   SubmissionStatus,
   SubmissionType,
-} from '@common/enums/submission.enum';
+} from '@domain/enums/submission.enum';
 
 export class Submission {
   constructor(

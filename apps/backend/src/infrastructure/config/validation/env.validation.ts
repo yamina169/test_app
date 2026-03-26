@@ -9,7 +9,6 @@ export const envValidationSchema = Joi.object({
 
   FRONTEND_URL: Joi.string().uri().required(),
 
-  // PostgreSQL
   POSTGRES_HOST: Joi.string().required(),
   POSTGRES_PORT: Joi.number().port().default(5432),
   POSTGRES_USER: Joi.string().required(),
@@ -21,7 +20,6 @@ export const envValidationSchema = Joi.object({
     otherwise: Joi.optional(),
   }),
 
-  // MinIO
   MINIO_HOST: Joi.string().required(),
   MINIO_PORT: Joi.number().port().default(9000),
   MINIO_ROOT_USER: Joi.string().required(),
@@ -29,4 +27,20 @@ export const envValidationSchema = Joi.object({
   MINIO_BUCKET: Joi.string().required(),
   MINIO_PUBLIC_URL: Joi.string().uri().required(),
   MINIO_USE_SSL: Joi.boolean().default(false),
-}).options({ allowUnknown: true });
+
+  JWT_SECRET: Joi.string().min(32).required(),
+  JWT_REFRESH_SECRET: Joi.string().min(32).required(),
+
+  MAIL_HOST: Joi.string().required(),
+  MAIL_PORT: Joi.number().port().required(),
+  MAIL_SECURE: Joi.boolean().default(false),
+  MAIL_USER: Joi.string().required(),
+  MAIL_PASS: Joi.string().required(),
+  MAIL_DEFAULT_FROM_NAME: Joi.string().required(),
+  MAIL_NO_REPLY: Joi.string().email().required(),
+  MAIL_CONTACT: Joi.string().email().required(),
+  MAIL_FALLBACK_LOCALE: Joi.string().valid('en', 'fr', 'ar').default('en'),
+  MAIL_TEMPLATES_BASE_PATH: Joi.string().default(
+    'src/infrastructure/integrations/mail/templates',
+  ),
+});

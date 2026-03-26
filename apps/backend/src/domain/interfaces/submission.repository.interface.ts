@@ -1,5 +1,5 @@
 import { Submission } from '@domain/entities/submission.entity';
-import { SubmissionType } from '@common/enums/submission.enum';
+import { SubmissionType } from '@domain/enums/submission.enum';
 
 export interface ISubmissionRepository {
   findById(id: string): Promise<Submission | null>;

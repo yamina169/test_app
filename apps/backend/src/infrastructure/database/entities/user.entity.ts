@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { RoleEntity } from './role.entity';
 import { SubmissionEntity } from './submission.entity';
-import { AccountStatus, OccupationStatus } from '@common/enums/user.enum';
+import { AccountStatus, OccupationStatus } from '@domain/enums/user.enum';
 
 @Entity('users')
 export class UserEntity {

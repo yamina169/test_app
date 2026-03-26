@@ -14,7 +14,7 @@ import {
   Matches,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { OccupationStatus } from '@common/enums/user.enum';
+import { OccupationStatus } from '@domain/enums/user.enum';
 
 @InputType()
 export class RegisterInput {
@@ -44,7 +44,10 @@ export class RegisterInput {
   @IsInt()
   @Field(() => Int)
   roleId: number;
-
+  @Field()
+  @IsString()
+  @IsNotEmpty()
+  emailVerificationToken: string;
   // Handicap profile fields
 
   @IsOptional()

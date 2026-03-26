@@ -4,7 +4,7 @@ import type { ISubmissionRepository } from '@domain/interfaces/submission.reposi
 import type { IUnitOfWork } from '@domain/interfaces/unit-of-work.interface';
 import { CreateSubmissionDto } from '@application/dto/submission/create-submission.dto';
 import { Submission } from '@domain/entities/submission.entity';
-import { SubmissionStatus } from '@common/enums/submission.enum';
+import { SubmissionStatus } from '@domain/enums/submission.enum';
 
 @Injectable()
 export class CreateSubmissionUseCase {
@@ -24,6 +24,7 @@ export class CreateSubmissionUseCase {
     uow?: IUnitOfWork,
   ): Promise<Submission> {
     const repo = uow?.submissionRepository ?? this.submissionRepository;
+    const now = new Date();
 
     const submission = new Submission(
       submissionId ?? uuid(),
@@ -32,8 +33,8 @@ export class CreateSubmissionUseCase {
       SubmissionStatus.PENDING,
       dto.submissionType,
       userId,
-      new Date(),
-      new Date(),
+      now,
+      now,
     );
 
     return repo.save(submission);

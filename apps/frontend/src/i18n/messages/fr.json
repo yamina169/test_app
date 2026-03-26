@@ -1,0 +1,107 @@
+{
+    "common": {
+        "required": "Obligatoire"
+    },
+    "accessibility": {
+        "skipToContent": "Aller au contenu principal"
+    },
+    "nav": {
+        "homeAriaLabel": "Sabilouna - Accueil",
+        "logoAlt": "Sabilouna",
+        "homeLinkText": "Accueil",
+        "mainNav": "Navigation principale",
+        "mobileNav": "Navigation mobile",
+        "menu": "Menu",
+        "openMenu": "Ouvrir le menu",
+        "language": "Langue",
+        "home": "Accueil",
+        "mission": "Notre mission",
+        "contact": "Contact",
+        "localeName": {
+            "en": "English",
+            "fr": "Français",
+            "ar": "العربية"
+        }
+    },
+    "hero": {
+        "badge": "L’inclusion pour tous",
+        "title": "Votre passerelle vers des services inclusifs",
+        "description": "Sabilouna aide les citoyens et les personnes en situation de handicap à trouver des lieux sûrs, accéder aux services et accomplir les démarches administratives — au même endroit.",
+        "ctaPrimary": "Commencer",
+        "ctaSecondary": "Découvrir les services"
+    },
+    "services": {
+        "heading": "Tout ce dont vous avez besoin",
+        "description": "Des outils et services complets conçus avec l’accessibilité au cœur de leur conception.",
+        "items": {
+            "safeSpaces": {
+                "title": "Trouver des espaces sécurisés",
+                "description": "Découvrez des lieux vérifiés en matière d’accessibilité, des environnements sûrs et des espaces inclusifs près de vous."
+            },
+            "submitForms": {
+                "title": "Soumettre des formulaires",
+                "description": "Formulaires numériques accessibles avec assistance, sauvegarde automatique et options multilingues."
+            },
+            "aiAssistant": {
+                "title": "Assistant IA",
+                "description": "Obtenez des conseils personnalisés et des réponses instantanées grâce à notre assistant intelligent inclusif."
+            },
+            "trackStatus": {
+                "title": "Suivre le statut",
+                "description": "Suivez vos demandes et services via des tableaux de bord accessibles en temps réel."
+            },
+            "accessibleDesign": {
+                "title": "Conception accessible",
+                "description": "Chaque fonctionnalité est développée selon les normes d’accessibilité avec des interfaces adaptables."
+            },
+            "nearbyServices": {
+                "title": "Services à proximité",
+                "description": "Découvrez les services selon votre localisation avec des informations détaillées sur leur accessibilité."
+            }
+        }
+    },
+    "mobile": {
+        "eyebrow": "EXPÉRIENCE MOBILE",
+        "title": "Accessible partout",
+        "description": "Sabilouna est entièrement optimisée pour un accès mobile.",
+        "features": {
+            "otp": "Connexion par OTP & lien magique — sans mot de passe",
+            "modes": "Modes d’accessibilité : contraste élevé, texte agrandi, réduction des animations",
+            "submit": "Soumettre et suivre vos demandes facilement",
+            "filter": "Filtrer les institutions par proximité"
+        },
+        "store": {
+            "appStore": "App Store",
+            "googlePlay": "Google Play",
+            "appStoreAria": "Télécharger sur l’App Store",
+            "googlePlayAria": "Obtenir sur Google Play"
+        },
+        "footnote": "Maquette mobile à titre de prévisualisation."
+    },
+    "contact": {
+        "heading": "Contactez-nous",
+        "description": "Vous avez une question ou besoin d’aide ? Nous sommes là pour vous accompagner.",
+        "fields": {
+            "fullName": "Nom complet",
+            "email": "Adresse e-mail",
+            "subject": "Objet",
+            "message": "Message"
+        },
+        "actions": {
+            "send": "Envoyer le message"
+        },
+        "success": {
+            "title": "Message envoyé avec succès !",
+            "subtitle": "Nous vous répondrons dès que possible.",
+            "sendAnother": "Envoyer un autre message"
+        },
+        "errors": {
+            "summaryTitle": "Veuillez corriger les erreurs suivantes :",
+            "fullNameRequired": "Le nom complet est obligatoire.",
+            "emailRequired": "L’adresse e-mail est obligatoire.",
+            "emailInvalid": "Veuillez saisir une adresse e-mail valide.",
+            "subjectRequired": "L’objet est obligatoire.",
+            "messageRequired": "Le message est obligatoire."
+        }
+    }
+}

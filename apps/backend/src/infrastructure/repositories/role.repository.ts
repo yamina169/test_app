@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -30,8 +30,7 @@ export class RoleRepository implements IRoleRepository {
     const saved = await this.repo.save(entity);
 
     const fresh = await this.repo.findOne({ where: { id: saved.id } });
-    if (!fresh)
-      throw new NotFoundException(`Role with id ${saved.id} not found`);
+    if (!fresh) throw new Error(`Role with id ${saved.id} not found`);
 
     return RoleMapper.toDomain(fresh);
   }

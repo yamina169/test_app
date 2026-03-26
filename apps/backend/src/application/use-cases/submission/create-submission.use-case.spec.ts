@@ -3,7 +3,7 @@ import { Submission } from '@domain/entities/submission.entity';
 import {
   SubmissionStatus,
   SubmissionType,
-} from '@common/enums/submission.enum';
+} from '@domain/enums/submission.enum';
 import type { ISubmissionRepository } from '@domain/interfaces/submission.repository.interface';
 import type { IUnitOfWork } from '@domain/interfaces/unit-of-work.interface';
 

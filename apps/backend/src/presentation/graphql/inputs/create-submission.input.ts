@@ -1,6 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { SubmissionType } from '@common/enums/submission.enum';
+import { SubmissionType } from '@domain/enums/submission.enum';
 
 @InputType()
 export class CreateSubmissionInput {

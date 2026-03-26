@@ -1,7 +1,8 @@
-import { AccountStatus, OccupationStatus } from '@common/enums/user.enum';
+import { AccountStatus, OccupationStatus } from '@domain/enums/user.enum';
 
-// ─── Profiles ─────────────────────────────────────────────────────────
-
+/**
+ * profiles
+ */
 export class HandicapProfile {
   constructor(
     public readonly dateOfBirth: Date,
@@ -28,8 +29,9 @@ export class InstitutionProfile {
   ) {}
 }
 
-// ─── User Entity ───────────────────────────────────────────────────────────
-
+/**
+ * User Entity
+ */
 export class User {
   constructor(
     public readonly id: string,

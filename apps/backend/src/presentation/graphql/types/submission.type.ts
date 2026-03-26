@@ -2,7 +2,7 @@ import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
 import {
   SubmissionStatus,
   SubmissionType as SubmissionTypeEnum,
-} from '@common/enums/submission.enum';
+} from '@domain/enums/submission.enum';
 
 registerEnumType(SubmissionStatus, { name: 'SubmissionStatus' });
 registerEnumType(SubmissionTypeEnum, { name: 'SubmissionType' });

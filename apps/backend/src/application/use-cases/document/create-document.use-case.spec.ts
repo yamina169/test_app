@@ -1,6 +1,6 @@
 import { CreateDocumentUseCase } from './create-document.use-case';
 import { Document } from '@domain/entities/document.entity';
-import { DocumentType } from '@common/enums/document.enum';
+import { DocumentType } from '@domain/enums/document.enum';
 import { IDocumentRepository } from '@domain/interfaces/document.repository.interface';
 import { IStorageService } from '@domain/interfaces/storage.service.interface';
 import { IUnitOfWork } from '@domain/interfaces/unit-of-work.interface';
@@ -9,6 +9,7 @@ const saveMock = jest.fn();
 const uploadFileMock = jest.fn();
 const deleteFileMock = jest.fn();
 const uowSaveMock = jest.fn();
+const fileExistsMock = jest.fn();
 
 const mockDocumentRepository: jest.Mocked<IDocumentRepository> = {
   save: saveMock,
@@ -17,6 +18,7 @@ const mockDocumentRepository: jest.Mocked<IDocumentRepository> = {
 const mockStorageService: jest.Mocked<IStorageService> = {
   uploadFile: uploadFileMock,
   deleteFile: deleteFileMock,
+  fileExists: fileExistsMock,
 };
 
 const mockUow = {
@@ -34,8 +36,8 @@ const file = {
 
 const makeSavedDocument = (id: string): Document => ({
   id,
-  fileName: 'proof.pdf',
-  fileUrl: 'https://minio/proof.pdf',
+  fileName: 'sub-1/abc123.pdf',
+  fileUrl: 'https://minio/bucket/sub-1/abc123.pdf',
   documentType: DocumentType.PROOF_OF_HANDICAP,
   submissionId: 'sub-1',
   createdAt: new Date(),
@@ -46,8 +48,8 @@ beforeEach(() => jest.clearAllMocks());
 describe('CreateDocumentUseCase', () => {
   it('uploads file and saves document successfully', async () => {
     uploadFileMock.mockResolvedValue({
-      fileName: 'proof.pdf',
-      fileUrl: 'https://minio/proof.pdf',
+      fileName: 'sub-1/abc123.pdf',
+      fileUrl: 'https://minio/bucket/sub-1/abc123.pdf',
     });
     const saved = makeSavedDocument('doc-1');
     saveMock.mockResolvedValue(saved);
@@ -58,20 +60,27 @@ describe('CreateDocumentUseCase', () => {
       'sub-1',
     );
 
-    expect(uploadFileMock).toHaveBeenCalledWith(
-      file.buffer,
-      file.fileName,
-      file.mimeType,
-      'sub-1',
-    );
+    expect(uploadFileMock).toHaveBeenCalledWith(file, 'sub-1');
     expect(saveMock).toHaveBeenCalled();
     expect(result).toEqual(saved);
   });
 
-  it('rolls back MinIO upload when DB save fails without uow', async () => {
+  it('falls back to "standalone" scope when submissionId is omitted', async () => {
     uploadFileMock.mockResolvedValue({
-      fileName: 'proof.pdf',
-      fileUrl: 'https://minio/proof.pdf',
+      fileName: 'standalone/abc123.pdf',
+      fileUrl: 'https://minio/bucket/standalone/abc123.pdf',
+    });
+    saveMock.mockResolvedValue(makeSavedDocument('doc-standalone'));
+
+    await makeUseCase().execute(file, DocumentType.PROOF_OF_HANDICAP);
+
+    expect(uploadFileMock).toHaveBeenCalledWith(file, 'standalone');
+  });
+
+  it('rolls back storage using fileName (objectKey) when DB save fails without uow', async () => {
+    uploadFileMock.mockResolvedValue({
+      fileName: 'sub-1/abc123.pdf',
+      fileUrl: 'https://minio/bucket/sub-1/abc123.pdf',
     });
     saveMock.mockRejectedValue(new Error('DB error'));
     deleteFileMock.mockResolvedValue(undefined);
@@ -80,16 +89,15 @@ describe('CreateDocumentUseCase', () => {
       makeUseCase().execute(file, DocumentType.PROOF_OF_HANDICAP, 'sub-1'),
     ).rejects.toThrow('DB error');
 
-    expect(deleteFileMock).toHaveBeenCalledWith('https://minio/proof.pdf');
+    expect(deleteFileMock).toHaveBeenCalledWith('sub-1/abc123.pdf');
   });
 
-  it('rolls back MinIO even when uow is provided and DB save fails', async () => {
+  it('does NOT roll back storage when uow is provided — caller owns the rollback', async () => {
     uploadFileMock.mockResolvedValue({
-      fileName: 'proof.pdf',
-      fileUrl: 'https://minio/proof.pdf',
+      fileName: 'sub-1/abc123.pdf',
+      fileUrl: 'https://minio/bucket/sub-1/abc123.pdf',
     });
     uowSaveMock.mockRejectedValue(new Error('DB error'));
-    deleteFileMock.mockResolvedValue(undefined);
 
     await expect(
       makeUseCase().execute(
@@ -100,13 +108,13 @@ describe('CreateDocumentUseCase', () => {
       ),
     ).rejects.toThrow('DB error');
 
-    expect(deleteFileMock).toHaveBeenCalledWith('https://minio/proof.pdf');
+    expect(deleteFileMock).not.toHaveBeenCalled();
   });
 
   it('uses uow repository when uow is provided', async () => {
     uploadFileMock.mockResolvedValue({
-      fileName: 'proof.pdf',
-      fileUrl: 'https://minio/proof.pdf',
+      fileName: 'sub-1/abc123.pdf',
+      fileUrl: 'https://minio/bucket/sub-1/abc123.pdf',
     });
     const saved = makeSavedDocument('doc-2');
     uowSaveMock.mockResolvedValue(saved);
@@ -123,10 +131,10 @@ describe('CreateDocumentUseCase', () => {
     expect(result).toEqual(saved);
   });
 
-  it('still throws original error even when MinIO rollback fails', async () => {
+  it('still throws original error even when storage rollback fails', async () => {
     uploadFileMock.mockResolvedValue({
-      fileName: 'proof.pdf',
-      fileUrl: 'https://minio/proof.pdf',
+      fileName: 'sub-1/abc123.pdf',
+      fileUrl: 'https://minio/bucket/sub-1/abc123.pdf',
     });
     saveMock.mockRejectedValue(new Error('DB error'));
     deleteFileMock.mockRejectedValue(new Error('MinIO delete failed'));

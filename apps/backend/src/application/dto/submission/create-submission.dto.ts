@@ -1,5 +1,5 @@
 import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
-import { SubmissionType } from '@common/enums/submission.enum';
+import { SubmissionType } from '@domain/enums/submission.enum';
 
 export class CreateSubmissionDto {
   @IsNotEmpty()
