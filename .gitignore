@@ -5,7 +5,7 @@ dist
 coverage
 *.log
 apps/backend/src/schema.gql
-# Ignore all environment files
 .env*
-# But keep the example file
+
+# Keep example env file
 !.env.example

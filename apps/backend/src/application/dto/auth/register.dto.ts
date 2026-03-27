@@ -43,8 +43,9 @@ export class RegisterUserDto {
   @IsString()
   @IsNotEmpty()
   emailVerificationToken: string;
-  // Handicap profile fields
-
+  /**
+   * Handicap profile fields
+   */
   @IsOptional()
   @IsString()
   handicapCardId?: string;
@@ -78,9 +79,9 @@ export class RegisterUserDto {
   @IsOptional()
   @IsBoolean()
   caregiver?: boolean;
-
-  // Institution profile fields
-
+  /**
+   * Institution profile fields
+   */
   @IsOptional()
   @IsString()
   institutionName?: string;

@@ -37,6 +37,7 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "@swc/helpers": "^0.5.20",
     "joi": "^18.1.1"
   }
 }

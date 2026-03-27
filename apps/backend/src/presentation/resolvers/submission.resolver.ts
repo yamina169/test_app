@@ -11,7 +11,6 @@ export class SubmissionResolver {
     private readonly createSubmissionUseCase: CreateSubmissionUseCase,
   ) {}
 
-  // TODO: Replace @Args('userId') with @CurrentUser() once auth is implemented.
   @Mutation(() => SubmissionObjectType)
   async createSubmission(
     @Args('userId', { type: () => ID }) userId: string,

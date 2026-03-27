@@ -19,7 +19,7 @@ import { join } from 'path';
             ? config.get<string>('POSTGRES_DB_TEST')
             : config.get<string>('POSTGRES_DB'),
         entities: [join(__dirname, '../../**/*.entity{.ts,.js}')],
-        synchronize: false,
+        synchronize: config.get('NODE_ENV') !== 'production',
         migrationsRun: false,
         logging: config.get('NODE_ENV') === 'development',
       }),

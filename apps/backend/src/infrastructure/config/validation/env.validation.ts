@@ -4,11 +4,8 @@ export const envValidationSchema = Joi.object({
   NODE_ENV: Joi.string()
     .valid('development', 'test', 'production')
     .default('development'),
-
   BACKEND_PORT: Joi.number().port().default(3000),
-
   FRONTEND_URL: Joi.string().uri().required(),
-
   POSTGRES_HOST: Joi.string().required(),
   POSTGRES_PORT: Joi.number().port().default(5432),
   POSTGRES_USER: Joi.string().required(),
@@ -27,10 +24,8 @@ export const envValidationSchema = Joi.object({
   MINIO_BUCKET: Joi.string().required(),
   MINIO_PUBLIC_URL: Joi.string().uri().required(),
   MINIO_USE_SSL: Joi.boolean().default(false),
-
   JWT_SECRET: Joi.string().min(32).required(),
   JWT_REFRESH_SECRET: Joi.string().min(32).required(),
-
   MAIL_HOST: Joi.string().required(),
   MAIL_PORT: Joi.number().port().required(),
   MAIL_SECURE: Joi.boolean().default(false),

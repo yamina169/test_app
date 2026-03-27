@@ -39,11 +39,11 @@ const SUBMISSION_TYPE_MAP: Partial<Record<string, SubmissionType>> = {
  * Registers a new user.
  *
  * Flow:
- * 1. Validate email verification token — before any I/O.
+ * 1. Validate email verification token .
  * 2. Pre-checks in parallel (role exists, email not taken).
  * 3. Build role-specific profiles — validates required fields early.
  * 4. Reject duplicate files by content hash.
- * 5. Hash password — outside the transaction to avoid holding a connection during CPU work.
+ * 5. Hash password — outside the transaction.
  * 6. Open transaction: persist user, submission, documents.
  * 7. On failure: DB rollback (non-throwing) then delete any uploaded files.
  */

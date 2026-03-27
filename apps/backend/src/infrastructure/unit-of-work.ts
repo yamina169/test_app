@@ -11,6 +11,8 @@ import { UserEntity } from './database/entities/user.entity';
 import { SubmissionEntity } from './database/entities/submission.entity';
 import { DocumentEntity } from './database/entities/document.entity';
 
+/** UnitOfWork handling DB transactions per request scope */
+
 @Injectable({ scope: Scope.REQUEST })
 export class UnitOfWork implements IUnitOfWork {
   private manager: EntityManager;

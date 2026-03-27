@@ -55,8 +55,6 @@ const mockFileEntry = {
   documentType: DocumentType.PROOF_OF_HANDICAP,
 };
 
-// ─── Mocks ───────────────────────────────────────────────────────────────────
-
 const mockUow = {
   begin: jest.fn(),
   commit: jest.fn(),
@@ -88,8 +86,6 @@ const mockEmailVerificationUseCase = {
   validateToken: jest.fn(),
 };
 
-// ─── Helpers ─────────────────────────────────────────────────────────────────
-
 function makeRole(type: string) {
   return { id: 1, type };
 }
@@ -108,8 +104,6 @@ function makeSavedDocument(fileName = MOCK_FILE_NAME) {
     fileUrl: `https://storage/${fileName}`,
   };
 }
-
-// ─── Suite ───────────────────────────────────────────────────────────────────
 
 describe('RegisterUserUseCase', () => {
   let useCase: RegisterUserUseCase;
@@ -144,8 +138,6 @@ describe('RegisterUserUseCase', () => {
     jest.useRealTimers();
   });
 
-  // ── Step 1: token validation ─────────────────────────────────────────────────
-
   describe('token validation', () => {
     it('should call validateToken with the token and email from the DTO', async () => {
       mockEmailVerificationUseCase.validateToken.mockReturnValue(undefined);
@@ -177,8 +169,6 @@ describe('RegisterUserUseCase', () => {
       expect(mockUserRepository.findByEmail).not.toHaveBeenCalled();
     });
   });
-
-  // ── Step 2: pre-checks ───────────────────────────────────────────────────────
 
   describe('pre-checks', () => {
     beforeEach(() => {
@@ -212,8 +202,6 @@ describe('RegisterUserUseCase', () => {
       );
     });
   });
-
-  // ── Step 3: profile validation ───────────────────────────────────────────────
 
   describe('profile validation', () => {
     beforeEach(() => {
@@ -254,8 +242,6 @@ describe('RegisterUserUseCase', () => {
     });
   });
 
-  // ── Step 4: duplicate file detection ─────────────────────────────────────────
-
   describe('duplicate file detection', () => {
     beforeEach(() => {
       mockEmailVerificationUseCase.validateToken.mockReturnValue(undefined);
@@ -271,8 +257,6 @@ describe('RegisterUserUseCase', () => {
       );
     });
   });
-
-  // ── Happy path ───────────────────────────────────────────────────────────────
 
   describe('successful registration', () => {
     beforeEach(() => {
@@ -324,8 +308,6 @@ describe('RegisterUserUseCase', () => {
       expect(mockUow.commit).toHaveBeenCalledTimes(1);
     });
   });
-
-  // ── Rollback on failure ──────────────────────────────────────────────────────
 
   describe('rollback on failure', () => {
     beforeEach(() => {

@@ -20,13 +20,7 @@ export const graphQlConfig: Partial<ApolloDriverConfig> = {
     res,
   }),
 
-  /**
-   * Secure GraphQL error handling
-   * - Full logging on server side
-   * - Do NOT expose originalError or stack trace to client
-   * - Differentiate user errors (BAD_USER_INPUT) from internal errors
-   * - In dev, add debug field for easier debugging
-   */
+  /** Secure GraphQL error handling: log server-side, hide details from client, differentiate user/internal errors, dev debug optional */
   formatError: (error: GraphQLError) => {
     logger.error('GraphQL Error', error);
 

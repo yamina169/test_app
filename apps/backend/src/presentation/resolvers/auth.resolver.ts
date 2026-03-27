@@ -1,5 +1,4 @@
 import { Resolver, Mutation, Args } from '@nestjs/graphql';
-import { BadRequestException } from '@nestjs/common';
 import { GraphQLUpload, FileUpload } from 'graphql-upload-ts';
 import { buffer } from 'stream/consumers';
 
@@ -21,16 +20,6 @@ export class AuthResolver {
     documentTypes?: DocumentType[],
   ): Promise<UserObjectType> {
     const resolvedFiles = files ?? [];
-
-    if (
-      resolvedFiles.length > 0 &&
-      documentTypes !== undefined &&
-      documentTypes.length !== resolvedFiles.length
-    ) {
-      throw new BadRequestException(
-        'documentTypes length must match files length',
-      );
-    }
 
     const uploadedFiles = await Promise.all(
       resolvedFiles.map(async (filePromise, index) => {

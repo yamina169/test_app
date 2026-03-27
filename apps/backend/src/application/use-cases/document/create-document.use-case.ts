@@ -20,12 +20,10 @@ export class CreateDocumentUseCase {
   ) {}
 
   /**
-   * Uploads a file to storage and persists the document record.
+   * Uploads a file and saves its document record.
    *
-   * @param uow - When provided, the document is saved within the caller's transaction.
-   *              Storage rollback on failure is the caller's responsibility.
-   *              When omitted, rolls back the storage upload if the DB write fails.
-   * @param submissionId - Scopes the storage object key. Defaults to `'standalone'` if omitted.
+   * @param uow - Optional transaction; caller handles rollback if provided.
+   * @param submissionId - Scopes the file; defaults to 'standalone'.
    */
   async execute(
     file: UploadedFile,
