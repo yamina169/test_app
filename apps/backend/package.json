@@ -19,8 +19,6 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "type-check": "tsc --noEmit",
-    "@apollo/server": "^5.4.0",
-    "@as-integrations/express5": "^1.1.2",
     "start:migrate": "npm run migration:run && npm run start:dev",
     "migration:generate": "typeorm-ts-node-commonjs migration:generate -d src/infrastructure/database/data-source.ts src/infrastructure/database/migrations/migration",
     "migration:create": "typeorm-ts-node-commonjs migration:create src/infrastructure/database/migrations/migration",
