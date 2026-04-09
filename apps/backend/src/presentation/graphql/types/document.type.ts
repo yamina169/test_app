@@ -6,20 +6,20 @@ registerEnumType(DocumentTypeEnum, { name: 'DocumentType' });
 @ObjectType('Document')
 export class DocumentObjectType {
   @Field(() => ID)
-  id: string;
+  id!: string;
 
   @Field()
-  fileName: string;
+  fileName!: string;
 
   @Field()
-  fileUrl: string;
+  fileUrl!: string;
 
   @Field(() => DocumentTypeEnum)
-  documentType: DocumentTypeEnum;
+  documentType!: DocumentTypeEnum;
 
   @Field(() => ID, { nullable: true })
-  submissionId: string | null;
+  submissionId!: string | null;
 
   @Field()
-  createdAt: Date;
+  createdAt!: Date;
 }

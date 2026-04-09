@@ -120,7 +120,6 @@ async function seed() {
     const submissionRepo = dataSource.getRepository(SubmissionEntity);
     const documentRepo = dataSource.getRepository(DocumentEntity);
 
-    // Roles
     for (const type of ROLES) {
       const existing = await roleRepo.findOneBy({ type });
       if (!existing) {
@@ -135,7 +134,6 @@ async function seed() {
       (await roleRepo.find()).map((r) => [r.type, r]),
     );
 
-    // Users
     for (const u of USERS) {
       const existing = await userRepo.findOneBy({ email: u.email });
       if (!existing) {
@@ -159,7 +157,6 @@ async function seed() {
       (await userRepo.find({ relations: ['role'] })).map((u) => [u.email, u]),
     );
 
-    // Submissions
     for (const s of SUBMISSIONS) {
       const existing = await submissionRepo.findOneBy({ title: s.title });
       if (!existing) {
@@ -180,7 +177,6 @@ async function seed() {
       ]),
     );
 
-    // Documents
     for (const d of DOCUMENTS) {
       const existing = await documentRepo.findOneBy({ fileName: d.fileName });
       if (!existing) {

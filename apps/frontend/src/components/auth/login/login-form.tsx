@@ -95,7 +95,7 @@ export function LoginForm() {
           type="button"
           variant="ghost"
           size="icon"
-          className="absolute end-1 top-7 h-10 w-10 text-muted-foreground hover:text-foreground"
+          className="absolute insest-e-1 top-7 h-10 w-10 text-muted-foreground hover:text-foreground"
           aria-label={
             showPassword ? t("fields.hidePassword") : t("fields.showPassword")
           }

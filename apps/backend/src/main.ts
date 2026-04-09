@@ -6,7 +6,7 @@ import {
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
 import { processRequest } from 'graphql-upload-ts';
-import type { FastifyRequest, FastifyReply } from 'fastify';
+import type { FastifyReply, FastifyRequest } from 'fastify';
 import type { IncomingMessage, ServerResponse } from 'http';
 
 async function bootstrap() {
@@ -39,7 +39,7 @@ async function bootstrap() {
   fastify.addHook(
     'preValidation',
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const contentType = request.headers['content-type'] ?? '';
+      const contentType = (request.headers['content-type'] as string) ?? '';
       if (!contentType.includes('multipart/form-data')) return;
 
       request.body = await processRequest(
@@ -51,6 +51,7 @@ async function bootstrap() {
 
   app.enableCors({
     origin: process.env.FRONTEND_URL ?? 'http://localhost:3000',
+    credentials: true,
   });
 
   await app.listen(process.env.PORT ?? '3001');

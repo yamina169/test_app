@@ -36,6 +36,15 @@ export class UserRepository implements IUserRepository {
     return UserMapper.toDomain(entity);
   }
 
+  async findByHandicapCardId(handicapCardId: string): Promise<User | null> {
+    const entity = await this.repo.findOne({
+      where: { handicapCardId },
+      relations: ['role'],
+    });
+    if (!entity) return null;
+    return UserMapper.toDomain(entity);
+  }
+
   async findAll(): Promise<User[]> {
     const entities = await this.repo.find({ relations: ['role'] });
     return entities.map((e) => UserMapper.toDomain(e));
@@ -61,5 +70,21 @@ export class UserRepository implements IUserRepository {
 
     await this.repo.delete(id);
     return existing;
+  }
+  async saveOtp(userId: string, code: string, expiresAt: Date): Promise<void> {
+    await this.repo.update(userId, {
+      otpCode: code,
+      otpExpiresAt: expiresAt,
+    });
+  }
+
+  async clearOtp(userId: string): Promise<void> {
+    await this.repo.update(userId, {
+      otpCode: undefined,
+      otpExpiresAt: undefined,
+    });
+  }
+  async updatePassword(userId: string, hashedPassword: string): Promise<void> {
+    await this.repo.update(userId, { password: hashedPassword });
   }
 }

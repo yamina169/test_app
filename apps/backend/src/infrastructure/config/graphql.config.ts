@@ -1,40 +1,51 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { Injectable } from '@nestjs/common';
+import { GqlOptionsFactory } from '@nestjs/graphql';
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { GraphQLError } from 'graphql';
 import { join } from 'path';
 import { Logger } from '@nestjs/common';
-
+import { GraphQLUpload } from 'graphql-upload-ts';
+import { GraphQLError, GraphQLFormattedError } from 'graphql';
 const logger = new Logger('GraphQL');
 
-export const graphQlConfig: Partial<ApolloDriverConfig> = {
-  driver: ApolloDriver,
-  path: '/api/graphql',
-  autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-  csrfPrevention: true,
+@Injectable()
+export class GraphqlConfig implements GqlOptionsFactory {
+  createGqlOptions(): ApolloDriverConfig {
+    return {
+      driver: ApolloDriver,
+      path: '/graphql',
+      autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      csrfPrevention: true,
+      buildSchemaOptions: {
+        scalarsMap: [{ type: () => GraphQLUpload, scalar: GraphQLUpload }],
+      },
+      context: ({ req, res }: { req: FastifyRequest; res: FastifyReply }) => ({
+        req,
+        res,
+      }),
+      formatError: (formattedError: GraphQLFormattedError, error: unknown) => {
+        logger.error('GraphQL Error', error);
 
-  /**
-   * GraphQL context to forward Fastify req/res to resolvers and guards
-   */
-  context: ({ req, res }: { req: FastifyRequest; res: FastifyReply }) => ({
-    req,
-    res,
-  }),
+        const gqlError = error instanceof GraphQLError ? error : null;
+        const code = formattedError.extensions?.code || 'INTERNAL_ERROR';
+        const isUserError = code === 'BAD_USER_INPUT';
 
-  /** Secure GraphQL error handling: log server-side, hide details from client, differentiate user/internal errors, dev debug optional */
-  formatError: (error: GraphQLError) => {
-    logger.error('GraphQL Error', error);
+        const safeError = {
+          message: isUserError
+            ? formattedError.message
+            : 'Internal server error',
+          code,
+        };
 
-    const isUserError = error.extensions?.code === 'BAD_USER_INPUT';
+        if (process.env.NODE_ENV !== 'production') {
+          return {
+            ...safeError,
+            debug: gqlError?.message ?? formattedError.message,
+          };
+        }
 
-    const safeError = {
-      message: isUserError ? error.message : 'Internal server error',
-      code: error.extensions?.code || 'INTERNAL_ERROR',
+        return safeError;
+      },
     };
-
-    if (process.env.NODE_ENV !== 'production') {
-      return { ...safeError, debug: error.message };
-    }
-
-    return safeError;
-  },
-};
+  }
+}

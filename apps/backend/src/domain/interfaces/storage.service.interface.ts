@@ -1,7 +1,5 @@
 import { UploadedFile } from './uploaded-file.interface';
 
-export const STORAGE_SERVICE_PORT = Symbol('IStorageService');
-
 export interface IStorageService {
   uploadFile(
     file: UploadedFile,

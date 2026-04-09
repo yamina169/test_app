@@ -1,43 +1,55 @@
 <h1
-  style='margin:0 0 16px;font-size:24px;line-height:1.4;font-weight:700;color:#0f172a;'
+  style='margin:0 0 16px;font-size:24px;font-weight:700;color:#0f172a; direction:rtl; text-align:right;'
 >
-  تأكيد عنوان بريدك الإلكتروني
+  تحقق من بريدك الإلكتروني
 </h1>
 
-<p style='margin:0 0 12px;font-size:16px;line-height:1.7;color:#1e293b;'>
-  مرحباً،
+<p
+  style='margin:0 0 12px;font-size:16px;line-height:1.7;color:#1e293b; direction:rtl; text-align:right;'
+>
+  مرحبًا،
 </p>
 
-<p style='margin:0 0 12px;font-size:16px;line-height:1.7;color:#334155;'>
-  شكراً لتسجيلك في
-  <strong>{{branding.brandTitle}}</strong>. لإتمام تسجيلك، يرجى تأكيد عنوان
-  بريدك الإلكتروني بالنقر على الزر أدناه.
+<p
+  style='margin:0 0 12px;font-size:16px;line-height:1.7;color:#334155; direction:rtl; text-align:right;'
+>
+  شكرًا لتسجيلك في
+  <strong>{{branding.brandTitle}}</strong>.
 </p>
 
-<p style='margin:0 0 24px;font-size:14px;line-height:1.7;color:#64748b;'>
-  ينتهي صلاحية هذا الرابط خلال
-  <strong>24 ساعة</strong>.
+<p
+  style='margin:0 0 16px;font-size:16px;color:#334155; direction:rtl; text-align:right;'
+>
+  استخدم هذا الرمز للتحقق من بريدك الإلكتروني
 </p>
 
-<table role='presentation' cellspacing='0' cellpadding='0' border='0'>
-  <tr>
-    <td style='border-radius:10px;background:#172554;'>
-      <a
-        href='{{verificationUrl}}'
-        target='_blank'
-        style='
-          display:inline-block;
-          padding:14px 32px;
-          font-size:15px;
-          font-weight:700;
-          color:#ffffff;
-          text-decoration:none;
-          border-radius:10px;
-          letter-spacing:0.3px;
-        '
-      >
-        تأكيد بريدي الإلكتروني
-      </a>
-    </td>
-  </tr>
-</table>
+<div style='margin:24px 0;text-align:center; direction:rtl;'>
+  <span
+    style='
+    display:inline-block;
+    padding:14px 24px;
+    font-size:28px;
+    font-weight:700;
+    letter-spacing:6px;
+    background:#f1f5f9;
+    border-radius:10px;
+    color:#0f172a;
+  '
+  >
+    {{code}}
+  </span>
+</div>
+
+<p
+  style='margin:0 0 12px;font-size:14px;color:#64748b; direction:rtl; text-align:right;'
+>
+  سينتهي صلاحية هذا الرمز خلال
+  <strong>10 دقائق</strong>.
+</p>
+
+<p
+  style='margin:0;font-size:14px;color:#64748b; direction:rtl; text-align:right;'
+>
+  —
+  {{branding.teamSignature}}
+</p>

@@ -11,38 +11,40 @@ import {
   Matches,
   IsUrl,
   IsInt,
+  Length,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 import { OccupationStatus } from '@domain/enums/user.enum';
-
 export class RegisterUserDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(3)
-  fullName: string;
+  fullName!: string;
 
   @IsEmail()
-  email: string;
+  email!: string;
 
   @IsNotEmpty()
   @IsString()
   @Matches(/^\+\d{8,15}$/, {
     message: 'phone must be in E.164 format like +21612345678',
   })
-  phone: string;
+  phone!: string;
 
   @IsNotEmpty()
   @IsString()
   @MinLength(8)
-  password: string;
+  password!: string;
 
   @IsNotEmpty()
   @IsInt()
-  @Type(() => Number)
-  roleId: number;
+  roleId!: number;
+
   @IsString()
   @IsNotEmpty()
-  emailVerificationToken: string;
+  @Length(6, 6, { message: 'OTP must be exactly 6 digits' })
+  @Matches(/^\d{6}$/, { message: 'OTP must contain only digits' })
+  otpCode!: string;
+
   /**
    * Handicap profile fields
    */
@@ -52,7 +54,6 @@ export class RegisterUserDto {
 
   @IsOptional()
   @IsDate()
-  @Type(() => Date)
   dateOfBirth?: Date;
 
   @IsOptional()
@@ -79,6 +80,7 @@ export class RegisterUserDto {
   @IsOptional()
   @IsBoolean()
   caregiver?: boolean;
+
   /**
    * Institution profile fields
    */

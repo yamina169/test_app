@@ -7,89 +7,89 @@ registerEnumType(OccupationStatus, { name: 'OccupationStatus' });
 @ObjectType('HandicapProfile')
 export class HandicapProfileType {
   @Field()
-  handicapCardId: string;
+  handicapCardId!: string;
 
   @Field()
-  dateOfBirth: Date;
+  dateOfBirth!: Date;
 
   @Field()
-  governorate: string;
+  governorate!: string;
 
   @Field()
-  city: string;
+  city!: string;
 
   @Field()
-  handicapType: string;
+  handicapType!: string;
 
   @Field(() => [String])
-  requiredAccommodation: string[];
+  requiredAccommodation!: string[];
 
   @Field(() => OccupationStatus)
-  occupationStatus: OccupationStatus;
+  occupationStatus!: OccupationStatus;
 
   @Field()
-  caregiver: boolean;
+  caregiver!: boolean;
 }
 
 @ObjectType('InstitutionProfile')
 export class InstitutionProfileType {
   @Field()
-  institutionName: string;
+  institutionName!: string;
 
   @Field()
-  institutionPhone: string;
+  institutionPhone!: string;
 
   @Field()
-  institutionEmail: string;
+  institutionEmail!: string;
 
   @Field()
-  institutionGovernorate: string;
+  institutionGovernorate!: string;
 
   @Field()
-  institutionCity: string;
+  institutionCity!: string;
 
   @Field()
-  website: string;
+  website!: string;
 
   @Field(() => [String])
-  typeOfServices: string[];
+  typeOfServices!: string[];
 
   @Field()
-  accessible: boolean;
+  accessible!: boolean;
 
   @Field(() => [String])
-  specificEquipment: string[];
+  specificEquipment!: string[];
 }
 
 @ObjectType('User')
 export class UserObjectType {
   @Field(() => ID)
-  id: string;
+  id!: string;
 
   @Field()
-  fullName: string;
+  fullName!: string;
 
   @Field()
-  email: string;
+  email!: string;
 
   @Field()
-  phone: string;
+  phone!: string;
 
   @Field(() => AccountStatus)
-  status: AccountStatus;
+  status!: AccountStatus;
 
   @Field()
-  roleId: number;
+  roleId!: number;
 
   @Field(() => HandicapProfileType, { nullable: true })
-  handicapProfile: HandicapProfileType | null;
+  handicapProfile!: HandicapProfileType | null;
 
   @Field(() => InstitutionProfileType, { nullable: true })
-  institutionProfile: InstitutionProfileType | null;
+  institutionProfile!: InstitutionProfileType | null;
 
   @Field()
-  createdAt: Date;
+  createdAt!: Date;
 
   @Field()
-  updatedAt: Date;
+  updatedAt!: Date;
 }

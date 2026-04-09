@@ -1,8 +1,8 @@
+// app.module.ts
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ConfigModule } from '@nestjs/config';
-import { GraphQLUpload } from 'graphql-upload-ts';
 import * as path from 'path';
 
 import { MailModule } from '@infrastructure/integrations/mail/mail.module';
@@ -12,6 +12,7 @@ import { dbConfig } from '@infrastructure/config/env/database.config';
 import mailConfig from '@infrastructure/config/env/mail.config';
 import { minioConfig } from '@infrastructure/config/env/minio.config';
 import { envValidationSchema } from '@infrastructure/config/validation/env.validation';
+import { GraphqlConfig } from '@infrastructure/config/graphql.config';
 
 import { AuthModule } from './modules/auth.module';
 import { DocumentModule } from './modules/document.module';
@@ -26,12 +27,9 @@ import { RoleModule } from './modules/role.module';
       load: [dbConfig, appConfig, mailConfig, minioConfig],
       validationSchema: envValidationSchema,
     }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
+    GraphQLModule.forRootAsync<ApolloDriverConfig>({
       driver: ApolloDriver,
-      autoSchemaFile: 'src/schema.gql',
-      buildSchemaOptions: {
-        scalarsMap: [{ type: () => GraphQLUpload, scalar: GraphQLUpload }],
-      },
+      useClass: GraphqlConfig,
     }),
     DatabaseModule,
     MailModule,

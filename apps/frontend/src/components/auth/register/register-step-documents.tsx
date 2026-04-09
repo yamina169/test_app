@@ -88,7 +88,7 @@ function UploadZone({
         className={[
           "inline-flex cursor-pointer items-center gap-2 rounded-xl",
           "border-2 border-dashed border-primary/30 px-5 py-3 text-sm text-primary",
-          "transition-colors hover:border-primary/60 min-h-[48px]",
+          "transition-colors hover:border-primary/60 min-h-12",
           "focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
         ].join(" ")}
       >

@@ -1,4 +1,4 @@
-import { Field, InputType } from '@nestjs/graphql';
+import { InputType, Field } from '@nestjs/graphql';
 import { IsEmail, IsIn } from 'class-validator';
 import {
   SUPPORTED_LOCALES,
@@ -6,12 +6,12 @@ import {
 } from '@domain/constants/supported-locales.constant';
 
 @InputType()
-export class SendVerificationEmailInput {
-  @Field()
+export class SendEmailInput {
+  @Field(() => String)
   @IsEmail()
-  email: string;
+  email!: string;
 
-  @Field()
+  @Field(() => String)
   @IsIn(SUPPORTED_LOCALES)
-  locale: SupportedLocale;
+  locale!: SupportedLocale;
 }

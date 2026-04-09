@@ -7,5 +7,5 @@ export class CreateDocumentInput {
   @IsNotEmpty()
   @IsEnum(DocumentType)
   @Field(() => DocumentType)
-  documentType: DocumentType;
+  documentType!: DocumentType;
 }

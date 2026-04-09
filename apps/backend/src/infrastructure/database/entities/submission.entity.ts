@@ -18,10 +18,10 @@ import {
 @Entity('submissions')
 export class SubmissionEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column()
-  title: string;
+  title!: string;
 
   @Column({ nullable: true })
   description?: string;
@@ -31,25 +31,25 @@ export class SubmissionEntity {
     enum: SubmissionStatus,
     default: SubmissionStatus.PENDING,
   })
-  status: SubmissionStatus;
+  status!: SubmissionStatus;
 
   @Column({
     type: 'enum',
     enum: SubmissionType,
     name: 'submission_type',
   })
-  submissionType: SubmissionType;
+  submissionType!: SubmissionType;
 
   @ManyToOne(() => UserEntity, (user) => user.submissions, { nullable: false })
   @JoinColumn({ name: 'user_id' })
-  user: UserEntity;
+  user!: UserEntity;
 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({ type: 'timestamp', name: 'updated_at' })
-  updatedAt: Date;
+  updatedAt!: Date;
 
   @OneToMany(() => DocumentEntity, (document) => document.submission)
-  documents: DocumentEntity[];
+  documents!: DocumentEntity[];
 }

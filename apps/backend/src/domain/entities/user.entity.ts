@@ -1,8 +1,5 @@
 import { AccountStatus, OccupationStatus } from '@domain/enums/user.enum';
 
-/**
- * profiles
- */
 export class HandicapProfile {
   constructor(
     public readonly dateOfBirth: Date,
@@ -14,7 +11,42 @@ export class HandicapProfile {
     public readonly caregiver: boolean,
     public readonly handicapCardId: string,
   ) {}
+
+  static create(data: {
+    dateOfBirth?: Date;
+    governorate?: string;
+    city?: string;
+    handicapType?: string;
+    requiredAccommodation?: string[];
+    occupationStatus?: OccupationStatus;
+    caregiver?: boolean;
+    handicapCardId?: string;
+  }): HandicapProfile | null {
+    if (
+      !data.dateOfBirth ||
+      !data.governorate ||
+      !data.city ||
+      !data.handicapType ||
+      !data.requiredAccommodation ||
+      !data.occupationStatus ||
+      data.caregiver == null ||
+      !data.handicapCardId
+    )
+      return null;
+
+    return new HandicapProfile(
+      data.dateOfBirth,
+      data.governorate,
+      data.city,
+      data.handicapType,
+      data.requiredAccommodation,
+      data.occupationStatus,
+      data.caregiver,
+      data.handicapCardId,
+    );
+  }
 }
+
 export class InstitutionProfile {
   constructor(
     public readonly institutionName: string,
@@ -27,11 +59,56 @@ export class InstitutionProfile {
     public readonly accessible: boolean,
     public readonly specificEquipment: string[],
   ) {}
+
+  static create(data: {
+    institutionName?: string;
+    institutionPhone?: string;
+    institutionEmail?: string;
+    institutionGovernorate?: string;
+    institutionCity?: string;
+    website?: string;
+    typeOfServices?: string[];
+    accessible?: boolean;
+    specificEquipment?: string[];
+  }): InstitutionProfile | null {
+    if (
+      !data.institutionName ||
+      !data.institutionPhone ||
+      !data.institutionEmail ||
+      !data.institutionGovernorate ||
+      !data.institutionCity ||
+      !data.website ||
+      !data.typeOfServices ||
+      data.accessible == null ||
+      !data.specificEquipment
+    )
+      return null;
+
+    return new InstitutionProfile(
+      data.institutionName,
+      data.institutionPhone,
+      data.institutionEmail,
+      data.institutionGovernorate,
+      data.institutionCity,
+      data.website,
+      data.typeOfServices,
+      data.accessible,
+      data.specificEquipment,
+    );
+  }
 }
 
-/**
- * User Entity
- */
+export class OtpData {
+  constructor(
+    public readonly code: string,
+    public readonly expiresAt: Date,
+  ) {}
+
+  isValid(): boolean {
+    return this.expiresAt > new Date();
+  }
+}
+
 export class User {
   constructor(
     public readonly id: string,
@@ -45,5 +122,6 @@ export class User {
     public readonly updatedAt: Date,
     public readonly handicapProfile: HandicapProfile | null,
     public readonly institutionProfile: InstitutionProfile | null,
+    public readonly otpData: OtpData | null,
   ) {}
 }

@@ -4,7 +4,7 @@ import { SubmissionType } from '@domain/enums/submission.enum';
 export class CreateSubmissionDto {
   @IsNotEmpty()
   @IsString()
-  title: string;
+  title!: string;
 
   @IsOptional()
   @IsString()
@@ -12,5 +12,5 @@ export class CreateSubmissionDto {
 
   @IsNotEmpty()
   @IsEnum(SubmissionType)
-  submissionType: SubmissionType;
+  submissionType!: SubmissionType;
 }

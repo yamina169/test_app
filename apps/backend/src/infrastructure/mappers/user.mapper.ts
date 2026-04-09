@@ -1,6 +1,7 @@
 import {
   HandicapProfile,
   InstitutionProfile,
+  OtpData,
   User,
 } from '@domain/entities/user.entity';
 import { UserEntity } from '../database/entities/user.entity';
@@ -12,46 +13,33 @@ export class UserMapper {
       throw new Error('UserMapper: role must be loaded');
     }
 
-    let handicapProfile: HandicapProfile | null = null;
-    if (
-      entity.dateOfBirth != null &&
-      entity.governorate != null &&
-      entity.city != null &&
-      entity.handicapType != null &&
-      entity.occupationStatus != null
-    ) {
-      handicapProfile = new HandicapProfile(
-        entity.dateOfBirth,
-        entity.governorate,
-        entity.city,
-        entity.handicapType,
-        entity.requiredAccommodation ?? [],
-        entity.occupationStatus,
-        entity.caregiver ?? false,
-        entity.handicapCardId ?? '',
-      );
-    }
+    const handicapProfile = HandicapProfile.create({
+      dateOfBirth: entity.dateOfBirth ?? undefined,
+      governorate: entity.governorate ?? undefined,
+      city: entity.city ?? undefined,
+      handicapType: entity.handicapType ?? undefined,
+      requiredAccommodation: entity.requiredAccommodation ?? undefined,
+      occupationStatus: entity.occupationStatus ?? undefined,
+      caregiver: entity.caregiver ?? undefined,
+      handicapCardId: entity.handicapCardId ?? undefined,
+    });
 
-    let institutionProfile: InstitutionProfile | null = null;
-    if (
-      entity.institutionName != null &&
-      entity.institutionPhone != null &&
-      entity.institutionEmail != null &&
-      entity.institutionGovernorate != null &&
-      entity.institutionCity != null
-    ) {
-      institutionProfile = new InstitutionProfile(
-        entity.institutionName,
-        entity.institutionPhone,
-        entity.institutionEmail,
-        entity.institutionGovernorate,
-        entity.institutionCity,
-        entity.website ?? '',
-        entity.typeOfServices ?? [],
-        entity.accessible ?? false,
-        entity.specificEquipment ?? [],
-      );
-    }
+    const institutionProfile = InstitutionProfile.create({
+      institutionName: entity.institutionName ?? undefined,
+      institutionPhone: entity.institutionPhone ?? undefined,
+      institutionEmail: entity.institutionEmail ?? undefined,
+      institutionGovernorate: entity.institutionGovernorate ?? undefined,
+      institutionCity: entity.institutionCity ?? undefined,
+      website: entity.website ?? undefined,
+      typeOfServices: entity.typeOfServices ?? undefined,
+      accessible: entity.accessible ?? undefined,
+      specificEquipment: entity.specificEquipment ?? undefined,
+    });
+
+    const otpData =
+      entity.otpCode && entity.otpExpiresAt
+        ? new OtpData(entity.otpCode, entity.otpExpiresAt)
+        : null;
 
     return new User(
       entity.id,
@@ -65,6 +53,7 @@ export class UserMapper {
       entity.updatedAt,
       handicapProfile,
       institutionProfile,
+      otpData,
     );
   }
 
@@ -105,6 +94,8 @@ export class UserMapper {
       entity.accessible = domain.institutionProfile.accessible;
       entity.specificEquipment = domain.institutionProfile.specificEquipment;
     }
+    entity.otpCode = domain.otpData?.code ?? undefined;
+    entity.otpExpiresAt = domain.otpData?.expiresAt ?? undefined;
 
     return entity;
   }

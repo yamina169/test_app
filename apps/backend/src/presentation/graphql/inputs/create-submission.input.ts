@@ -7,7 +7,7 @@ export class CreateSubmissionInput {
   @IsNotEmpty()
   @IsString()
   @Field()
-  title: string;
+  title!: string;
 
   @IsOptional()
   @IsString()
@@ -17,5 +17,5 @@ export class CreateSubmissionInput {
   @IsNotEmpty()
   @IsEnum(SubmissionType)
   @Field(() => SubmissionType)
-  submissionType: SubmissionType;
+  submissionType!: SubmissionType;
 }

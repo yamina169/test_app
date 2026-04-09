@@ -4,5 +4,5 @@ import { DocumentType } from '@domain/enums/document.enum';
 export class CreateDocumentDto {
   @IsNotEmpty()
   @IsEnum(DocumentType)
-  documentType: DocumentType;
+  documentType!: DocumentType;
 }

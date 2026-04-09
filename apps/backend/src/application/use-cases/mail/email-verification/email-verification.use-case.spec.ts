@@ -2,38 +2,33 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UnauthorizedException } from '@nestjs/common';
 import { EmailVerificationUseCase } from './email-verification.use-case';
 import { MAILER_PORT } from '@domain/interfaces/mailer.port';
-import { TOKEN_PORT, TokenPayload } from '@domain/interfaces/token.port';
 import { MailTemplateKey } from '@domain/enums/mail/mail-template-key.enum';
 import { SystemEmailSender } from '@domain/enums/mail/system-email-sender.enum';
 import { emailBranding } from '@domain/constants/email-branding';
 import { SupportedLocale } from '@domain/constants/supported-locales.constant';
 
-const FRONTEND_URL = 'http://localhost:3000';
+interface EmailContext {
+  code: string;
+  branding: unknown;
+  year: number;
+}
 
-interface SendTemplatedEmailParams {
+interface SendTemplatedEmailCall {
   to: string;
   locale: SupportedLocale;
   senderKey: SystemEmailSender;
   templateKey: MailTemplateKey;
-  context: {
-    verificationUrl: string;
-    branding: unknown;
-    year: number;
-  };
+  context: EmailContext;
 }
 
 const mockMailer = {
-  sendTemplatedEmail: jest.fn() as jest.MockedFunction<
-    (params: SendTemplatedEmailParams) => Promise<void>
-  >,
+  sendTemplatedEmail: jest.fn<Promise<void>, [SendTemplatedEmailCall]>(),
 };
 
-const mockTokenPort = {
-  sign: jest.fn() as jest.MockedFunction<
-    (payload: { sub: string; email: string }) => string
-  >,
-  verify: jest.fn() as jest.MockedFunction<(token: string) => TokenPayload>,
-};
+function getLastCall(): SendTemplatedEmailCall {
+  const calls = mockMailer.sendTemplatedEmail.mock.calls;
+  return calls[calls.length - 1][0];
+}
 
 describe('EmailVerificationUseCase', () => {
   let useCase: EmailVerificationUseCase;
@@ -43,8 +38,6 @@ describe('EmailVerificationUseCase', () => {
       providers: [
         EmailVerificationUseCase,
         { provide: MAILER_PORT, useValue: mockMailer },
-        { provide: TOKEN_PORT, useValue: mockTokenPort },
-        { provide: 'FRONTEND_URL', useValue: FRONTEND_URL },
       ],
     }).compile();
 
@@ -57,90 +50,113 @@ describe('EmailVerificationUseCase', () => {
 
   describe('sendVerificationEmail', () => {
     const dto = { email: 'user@example.com', locale: 'en' as SupportedLocale };
-    const fakeToken = 'signed-token';
 
     beforeEach(() => {
-      mockTokenPort.sign.mockReturnValue(fakeToken);
       mockMailer.sendTemplatedEmail.mockResolvedValue(undefined);
     });
 
-    it('should sign a token with sub and email', async () => {
+    it('should send a templated email with the correct static params', async () => {
       await useCase.sendVerificationEmail(dto);
 
-      expect(mockTokenPort.sign).toHaveBeenCalledWith({
-        sub: dto.email,
-        email: dto.email,
-      });
-    });
-
-    it('should send a templated email with correct params', async () => {
-      await useCase.sendVerificationEmail(dto);
-
-      expect(mockMailer.sendTemplatedEmail).toHaveBeenCalledWith({
+      expect(getLastCall()).toMatchObject({
         to: dto.email,
         locale: dto.locale,
         senderKey: SystemEmailSender.NO_REPLY,
         templateKey: MailTemplateKey.EMAIL_VERIFICATION,
         context: {
-          verificationUrl: `${FRONTEND_URL}/verify-email?token=${fakeToken}`,
           branding: emailBranding[dto.locale],
           year: new Date().getFullYear(),
         },
       });
     });
 
-    it('should build the verification URL from the injected FRONTEND_URL', async () => {
+    it('should include a 6-digit OTP code in the email context', async () => {
       await useCase.sendVerificationEmail(dto);
 
-      const call = mockMailer.sendTemplatedEmail.mock.calls[0][0];
-      expect(call.context.verificationUrl).toBe(
-        `${FRONTEND_URL}/verify-email?token=${fakeToken}`,
-      );
+      expect(getLastCall().context.code).toMatch(/^\d{6}$/);
+    });
+
+    it('should store the OTP so that verifyOtp succeeds immediately after', async () => {
+      await useCase.sendVerificationEmail(dto);
+
+      const { code } = getLastCall().context;
+
+      expect(() => useCase.verifyOtp(dto.email, code)).not.toThrow();
     });
   });
 
-  describe('validateToken', () => {
-    const expectedEmail = 'user@example.com';
-    const validPayload: TokenPayload = {
-      sub: expectedEmail,
-      email: expectedEmail,
-    };
+  describe('verifyOtp', () => {
+    const email = 'user@example.com';
+    const TTL_MS = 10 * 60 * 1000;
 
-    it('should not throw when token is valid and email matches', () => {
-      mockTokenPort.verify.mockReturnValue(validPayload);
-
-      expect(() =>
-        useCase.validateToken('valid-token', expectedEmail),
-      ).not.toThrow();
+    beforeEach(() => {
+      mockMailer.sendTemplatedEmail.mockResolvedValue(undefined);
+      jest.useFakeTimers();
     });
 
-    it('should throw UnauthorizedException when tokenPort.verify throws', () => {
-      mockTokenPort.verify.mockImplementation(() => {
-        throw new Error('jwt expired');
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    async function seedOtp(): Promise<string> {
+      await useCase.sendVerificationEmail({
+        email,
+        locale: 'en' as SupportedLocale,
       });
+      return getLastCall().context.code;
+    }
 
-      expect(() => useCase.validateToken('bad-token', expectedEmail)).toThrow(
-        UnauthorizedException,
+    it('should not throw when the code is valid and not expired', async () => {
+      const sentCode = await seedOtp();
+
+      expect(() => useCase.verifyOtp(email, sentCode)).not.toThrow();
+    });
+
+    it('should throw UnauthorizedException when no OTP exists for the email', () => {
+      expect(() => useCase.verifyOtp('unknown@example.com', '123456')).toThrow(
+        new UnauthorizedException('Invalid or expired OTP code'),
       );
     });
 
-    it('should throw UnauthorizedException when payload.sub does not match expectedEmail', () => {
-      const mismatchedPayload: TokenPayload = {
-        sub: 'other@example.com',
-        email: 'other@example.com',
-      };
-      mockTokenPort.verify.mockReturnValue(mismatchedPayload);
+    it('should throw UnauthorizedException when the OTP has expired', async () => {
+      const sentCode = await seedOtp();
 
-      expect(() => useCase.validateToken('valid-token', expectedEmail)).toThrow(
-        UnauthorizedException,
+      jest.advanceTimersByTime(TTL_MS + 1);
+
+      expect(() => useCase.verifyOtp(email, sentCode)).toThrow(
+        new UnauthorizedException('OTP code has expired'),
       );
     });
 
-    it('should call tokenPort.verify with the provided token', () => {
-      mockTokenPort.verify.mockReturnValue(validPayload);
-      useCase.validateToken('my-token', expectedEmail);
+    it('should throw UnauthorizedException when the code is incorrect', async () => {
+      await seedOtp();
 
-      expect(mockTokenPort.verify).toHaveBeenCalledWith('my-token');
+      expect(() => useCase.verifyOtp(email, '000000')).toThrow(
+        new UnauthorizedException('Incorrect OTP code'),
+      );
+    });
+
+    it('should delete the OTP after successful verification (one-time use)', async () => {
+      const sentCode = await seedOtp();
+
+      useCase.verifyOtp(email, sentCode);
+
+      expect(() => useCase.verifyOtp(email, sentCode)).toThrow(
+        new UnauthorizedException('Invalid or expired OTP code'),
+      );
+    });
+
+    it('should delete the OTP after expiry check (no reuse after expiry)', async () => {
+      const sentCode = await seedOtp();
+
+      jest.advanceTimersByTime(TTL_MS + 1);
+      expect(() => useCase.verifyOtp(email, sentCode)).toThrow(
+        UnauthorizedException,
+      );
+
+      expect(() => useCase.verifyOtp(email, sentCode)).toThrow(
+        new UnauthorizedException('Invalid or expired OTP code'),
+      );
     });
   });
 });

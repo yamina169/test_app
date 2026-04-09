@@ -1,4 +1,3 @@
-// minio.config.ts
 import { registerAs } from '@nestjs/config';
 
 export const minioConfig = registerAs('minio', () => ({

@@ -15,42 +15,49 @@ import { AccountStatus, OccupationStatus } from '@domain/enums/user.enum';
 @Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn('uuid')
-  id: string;
+  id!: string;
 
   @Column({ name: 'full_name' })
-  fullName: string;
+  fullName!: string;
 
   @Column({ unique: true })
-  email: string;
+  email!: string;
 
   @Column()
-  phone: string;
+  phone!: string;
 
   @Column()
-  password: string;
+  password!: string;
 
   @Column({
     type: 'enum',
     enum: AccountStatus,
     default: AccountStatus.PENDING,
   })
-  status: AccountStatus;
+  status!: AccountStatus;
 
   @ManyToOne(() => RoleEntity, (role) => role.users)
   @JoinColumn({ name: 'role_id' })
-  role: RoleEntity;
+  role!: RoleEntity;
 
   @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
-  createdAt: Date;
+  createdAt!: Date;
 
   @UpdateDateColumn({ type: 'timestamp', name: 'updated_at' })
-  updatedAt: Date;
+  updatedAt!: Date;
 
   // Handicap profile fields
   @Column({ name: 'handicap_card_id', nullable: true })
   handicapCardId?: string;
 
-  @Column({ type: 'date', nullable: true, name: 'date_of_birth' })
+  @Column({
+    type: 'date',
+    nullable: true,
+    transformer: {
+      to: (value: Date) => value,
+      from: (value: string) => (value ? new Date(value) : null),
+    },
+  })
   dateOfBirth?: Date;
 
   @Column({ nullable: true })
@@ -109,5 +116,11 @@ export class UserEntity {
   specificEquipment?: string[];
 
   @OneToMany(() => SubmissionEntity, (submission) => submission.user)
-  submissions: SubmissionEntity[];
+  submissions!: SubmissionEntity[];
+
+  @Column({ nullable: true, name: 'otp_code' })
+  otpCode?: string;
+
+  @Column({ type: 'timestamp', nullable: true, name: 'otp_expires_at' })
+  otpExpiresAt?: Date;
 }

@@ -1,5 +1,9 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsEmail, IsIn, IsOptional, IsString } from 'class-validator';
+import {
+  SUPPORTED_LOCALES,
+  type SupportedLocale,
+} from '@domain/constants/supported-locales.constant';
 
 @InputType()
 export class TestContactEmailInput {
@@ -12,8 +16,8 @@ export class TestContactEmailInput {
   subject!: string;
 
   @Field()
-  @IsIn(['en', 'fr', 'ar'])
-  locale!: 'en' | 'fr' | 'ar';
+  @IsIn(SUPPORTED_LOCALES)
+  locale!: SupportedLocale;
 
   @Field({ nullable: true })
   @IsOptional()

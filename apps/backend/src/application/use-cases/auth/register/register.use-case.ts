@@ -11,10 +11,9 @@ import { v4 as uuid } from 'uuid';
 import { createHash } from 'crypto';
 
 import type { IUnitOfWork } from '@domain/interfaces/unit-of-work.interface';
-import type { IUserRepository } from '@domain/interfaces/user.repository.interface';
 import type { IRoleRepository } from '@domain/interfaces/role.repository.interface';
 import type { IStorageService } from '@domain/interfaces/storage.service.interface';
-import type { UploadedFile } from '@domain/interfaces/uploaded-file.interface';
+import type { FileEntry } from '@domain/interfaces/uploaded-file.interface';
 import { RegisterUserDto } from '@application/dto/auth/register.dto';
 import {
   HandicapProfile,
@@ -22,30 +21,21 @@ import {
   User,
 } from '@domain/entities/user.entity';
 import { AccountStatus } from '@domain/enums/user.enum';
-import { SubmissionType } from '@domain/enums/submission.enum';
-import { DocumentType } from '@domain/enums/document.enum';
-import { CreateSubmissionUseCase } from '../submission/create-submission.use-case';
-import { CreateDocumentUseCase } from '../document/create-document.use-case';
-import { EmailVerificationUseCase } from '../mail/email-verification/email-verification.use-case';
-
-type FileEntry = { file: UploadedFile; documentType: DocumentType };
-
-const SUBMISSION_TYPE_MAP: Partial<Record<string, SubmissionType>> = {
-  HANDICAP_USER: SubmissionType.REGISTRATION_HANDICAP_USER,
-  INSTITUTION_ADMIN: SubmissionType.REGISTRATION_INSTITUTION,
-};
+import { CreateSubmissionUseCase } from '../../submission/create-submission.use-case';
+import { CreateDocumentUseCase } from '../../document/create-document.use-case';
+import { EmailVerificationUseCase } from '../../mail/email-verification/email-verification.use-case';
 
 /**
  * Registers a new user.
  *
  * Flow:
- * 1. Validate email verification token .
- * 2. Pre-checks in parallel (role exists, email not taken).
- * 3. Build role-specific profiles — validates required fields early.
- * 4. Reject duplicate files by content hash.
- * 5. Hash password — outside the transaction.
- * 6. Open transaction: persist user, submission, documents.
- * 7. On failure: DB rollback (non-throwing) then delete any uploaded files.
+ * 1. Pre-check role and email.
+ * 2. Verify OTP.
+ * 3. Build role-specific profiles.
+ * 4. Reject duplicate files.
+ * 5. Hash password (outside transaction).
+ * 6. Persist user, submission, documents in transaction.
+ * 7. On failure: rollback DB and uploaded files.
  */
 @Injectable()
 export class RegisterUserUseCase {
@@ -53,7 +43,6 @@ export class RegisterUserUseCase {
 
   constructor(
     @Inject('IUnitOfWork') private readonly uow: IUnitOfWork,
-    @Inject('IUserRepository') private readonly userRepository: IUserRepository,
     @Inject('IRoleRepository') private readonly roleRepository: IRoleRepository,
     @Inject('IStorageService') private readonly storageService: IStorageService,
     private readonly createSubmissionUseCase: CreateSubmissionUseCase,
@@ -64,30 +53,32 @@ export class RegisterUserUseCase {
   async execute(dto: RegisterUserDto, files: FileEntry[] = []): Promise<User> {
     const now = new Date();
 
-    this.emailVerificationUseCase.validateToken(
-      dto.emailVerificationToken,
-      dto.email,
-    );
-
     const [role, existing] = await Promise.all([
       this.roleRepository.findById(dto.roleId),
-      this.userRepository.findByEmail(dto.email),
+      this.uow.userRepository.findByEmail(dto.email),
     ]);
 
     if (!role) throw new NotFoundException('Role not found');
     if (existing) throw new ConflictException('Email already in use');
 
-    const submissionType = SUBMISSION_TYPE_MAP[role.type] ?? null;
+    this.emailVerificationUseCase.verifyOtp(dto.email, dto.otpCode);
+
+    const submissionType = role.getSubmissionType();
 
     if (submissionType && files.length === 0)
       throw new BadRequestException('At least one document is required');
 
     const handicapProfile =
-      role.type === 'HANDICAP_USER' ? this.buildHandicapProfile(dto) : null;
+      role.type === 'HANDICAP_USER' ? HandicapProfile.create(dto) : null;
+
     const institutionProfile =
-      role.type === 'INSTITUTION_ADMIN'
-        ? this.buildInstitutionProfile(dto)
-        : null;
+      role.type === 'INSTITUTION_ADMIN' ? InstitutionProfile.create(dto) : null;
+
+    if (role.type === 'HANDICAP_USER' && handicapProfile === null)
+      throw new BadRequestException('Missing handicap profile fields');
+
+    if (role.type === 'INSTITUTION_ADMIN' && institutionProfile === null)
+      throw new BadRequestException('Missing institution profile fields');
 
     const hashes = files.map(({ file }) =>
       createHash('sha256').update(file.buffer).digest('hex'),
@@ -114,6 +105,7 @@ export class RegisterUserUseCase {
           now,
           handicapProfile,
           institutionProfile,
+          null,
         ),
       );
 
@@ -156,81 +148,6 @@ export class RegisterUserUseCase {
           .deleteFile(name)
           .catch((e) => this.logger.error(`Rollback failed for "${name}"`, e)),
       ),
-    );
-  }
-
-  private buildHandicapProfile(dto: RegisterUserDto): HandicapProfile {
-    const {
-      dateOfBirth,
-      governorate,
-      city,
-      handicapType,
-      requiredAccommodation,
-      occupationStatus,
-      caregiver,
-      handicapCardId,
-    } = dto;
-
-    if (
-      !dateOfBirth ||
-      !governorate ||
-      !city ||
-      !handicapType ||
-      !requiredAccommodation ||
-      !occupationStatus ||
-      caregiver == null ||
-      !handicapCardId
-    )
-      throw new BadRequestException('Missing handicap profile fields');
-
-    return new HandicapProfile(
-      dateOfBirth,
-      governorate,
-      city,
-      handicapType,
-      requiredAccommodation,
-      occupationStatus,
-      caregiver,
-      handicapCardId,
-    );
-  }
-
-  private buildInstitutionProfile(dto: RegisterUserDto): InstitutionProfile {
-    const {
-      institutionName,
-      institutionPhone,
-      institutionEmail,
-      institutionGovernorate,
-      institutionCity,
-      website,
-      typeOfServices,
-      accessible,
-      specificEquipment,
-    } = dto;
-
-    if (
-      !institutionName ||
-      !institutionPhone ||
-      !institutionEmail ||
-      !institutionGovernorate ||
-      !institutionCity ||
-      !website ||
-      !typeOfServices ||
-      accessible == null ||
-      !specificEquipment
-    )
-      throw new BadRequestException('Missing institution profile fields');
-
-    return new InstitutionProfile(
-      institutionName,
-      institutionPhone,
-      institutionEmail,
-      institutionGovernorate,
-      institutionCity,
-      website,
-      typeOfServices,
-      accessible,
-      specificEquipment,
     );
   }
 }

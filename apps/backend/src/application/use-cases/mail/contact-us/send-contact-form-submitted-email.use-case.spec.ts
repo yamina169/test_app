@@ -30,8 +30,8 @@ describe('SendContactFormSubmittedEmailUseCase', () => {
   });
 
   it('should send the contact form confirmation email with the correct payload', async () => {
-    jest.useFakeTimers().setSystemTime(new Date('2026-03-13T10:00:00.000Z'));
-
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-03-13T10:00:00.000Z').getTime());
     await useCase.execute(input);
 
     const sendTemplatedEmailMock = mailerMock.sendTemplatedEmail;
@@ -52,8 +52,8 @@ describe('SendContactFormSubmittedEmailUseCase', () => {
   });
 
   it('should use branding matching the input locale', async () => {
-    jest.useFakeTimers().setSystemTime(new Date('2026-03-13T10:00:00.000Z'));
-
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date('2026-03-13T10:00:00.000Z').getTime());
     const frenchInput: SendContactFormSubmittedEmailDto = {
       ...input,
       locale: 'fr',

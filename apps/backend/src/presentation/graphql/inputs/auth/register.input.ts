@@ -12,6 +12,7 @@ import {
   IsInt,
   IsUrl,
   Matches,
+  Length,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 import { OccupationStatus } from '@domain/enums/user.enum';
@@ -22,34 +23,37 @@ export class RegisterInput {
   @IsString()
   @MinLength(3)
   @Field()
-  fullName: string;
+  fullName!: string;
 
   @IsEmail()
   @Field()
-  email: string;
+  email!: string;
 
   @IsNotEmpty()
   @IsString()
   @Matches(/^\+\d{8,15}$/, { message: 'phone must be in E.164 format' })
   @Field()
-  phone: string;
+  phone!: string;
 
   @IsNotEmpty()
   @IsString()
   @MinLength(8)
   @Field()
-  password: string;
+  password!: string;
 
   @IsNotEmpty()
   @IsInt()
   @Field(() => Int)
-  roleId: number;
+  roleId!: number;
+
   @Field()
   @IsString()
   @IsNotEmpty()
-  emailVerificationToken: string;
-  // Handicap profile fields
+  @Length(6, 6, { message: 'OTP must be exactly 6 digits' })
+  @Matches(/^\d{6}$/, { message: 'OTP must contain only digits' })
+  otpCode!: string;
 
+  // Handicap profile fields
   @IsOptional()
   @IsString()
   @Field({ nullable: true })

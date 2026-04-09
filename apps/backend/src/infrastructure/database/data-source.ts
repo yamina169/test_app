@@ -17,7 +17,7 @@ export const AppDataSource = new DataSource({
   database: isTest ? process.env.POSTGRES_DB_TEST : process.env.POSTGRES_DB,
   entities: [join(__dirname, '../../**/*.entity{.ts,.js}')],
   migrations: [join(__dirname, './migrations/*{.ts,.js}')],
-  synchronize: isTest, // Auto-creates tables in test environment only.
+  synchronize: isTest,
   migrationsRun: false,
   logging: isDev || isTest,
 });

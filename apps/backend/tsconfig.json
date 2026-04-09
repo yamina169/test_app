@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["jest", "node"],
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "resolvePackageJsonExports": true,
@@ -13,20 +14,13 @@
     "target": "ES2023",
     "sourceMap": true,
     "outDir": "./dist",
+
     "baseUrl": "./src",
     "paths": {
-      "@domain/*": [
-        "domain/*"
-      ],
-      "@application/*": [
-        "application/*"
-      ],
-      "@infrastructure/*": [
-        "infrastructure/*"
-      ],
-      "@presentation/*": [
-        "presentation/*"
-      ]
+      "@domain/*": ["domain/*"],
+      "@application/*": ["application/*"],
+      "@infrastructure/*": ["infrastructure/*"],
+      "@presentation/*": ["presentation/*"]
     },
     "incremental": true,
     "skipLibCheck": true,

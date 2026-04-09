@@ -1,4 +1,10 @@
-import { ObjectType, Field, ID, registerEnumType } from '@nestjs/graphql';
+import {
+  ObjectType,
+  Field,
+  ID,
+  registerEnumType,
+  GraphQLISODateTime,
+} from '@nestjs/graphql';
 import {
   SubmissionStatus,
   SubmissionType as SubmissionTypeEnum,
@@ -10,26 +16,26 @@ registerEnumType(SubmissionTypeEnum, { name: 'SubmissionType' });
 @ObjectType('Submission')
 export class SubmissionObjectType {
   @Field(() => ID)
-  id: string;
+  id!: string;
 
   @Field()
-  title: string;
+  title!: string;
 
   @Field(() => String, { nullable: true })
-  description: string | null;
+  description?: string | null;
 
   @Field(() => SubmissionTypeEnum)
-  submissionType: SubmissionTypeEnum;
+  submissionType!: SubmissionTypeEnum;
 
   @Field(() => SubmissionStatus)
-  status: SubmissionStatus;
+  status!: SubmissionStatus;
 
   @Field()
-  userId: string;
+  userId!: string;
 
-  @Field()
-  createdAt: Date;
+  @Field(() => GraphQLISODateTime)
+  createdAt!: Date;
 
-  @Field()
-  updatedAt: Date;
+  @Field(() => GraphQLISODateTime)
+  updatedAt!: Date;
 }

@@ -6,8 +6,8 @@ import { IsEmail, IsIn } from 'class-validator';
 
 export class SendVerificationEmailDto {
   @IsEmail()
-  email: string;
+  email!: string;
 
   @IsIn(SUPPORTED_LOCALES)
-  locale: SupportedLocale;
+  locale!: SupportedLocale;
 }
