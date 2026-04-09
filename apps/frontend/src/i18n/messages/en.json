@@ -1,0 +1,354 @@
+{
+  "common": {
+    "required": "Required"
+  },
+  "accessibility": {
+    "skipToContent": "Skip to main content"
+  },
+  "nav": {
+    "homeAriaLabel": "Sabilouna - Home",
+    "logoAlt": "Sabilouna",
+    "homeLinkText": "Home",
+    "mainNav": "Main navigation",
+    "mobileNav": "Mobile navigation",
+    "menu": "Menu",
+    "openMenu": "Open menu",
+    "language": "Language",
+    "home": "Home",
+    "mission": "Our Mission",
+    "contact": "Contact",
+    "localeName": {
+      "en": "English",
+      "fr": "Français",
+      "ar": "العربية"
+    }
+  },
+  "hero": {
+    "badge": "Inclusion for everyone",
+    "title": "Your Gateway to Inclusive Services",
+    "description": "Sabilouna helps citizens and people with disabilities find safe spaces, access services, and complete administrative procedures — all in one place.",
+    "ctaPrimary": "Get Started",
+    "ctaSecondary": "Browse Services"
+  },
+  "services": {
+    "heading": "Everything You Need",
+    "description": "Comprehensive tools and services designed with accessibility at their core.",
+    "items": {
+      "safeSpaces": {
+        "title": "Find Safe Spaces",
+        "description": "Discover accessibility-verified locations, safe environments, and inclusive spaces near you."
+      },
+      "submitForms": {
+        "title": "Submit Forms",
+        "description": "Accessible digital forms with assistive support, auto-save, and multi-language options."
+      },
+      "aiAssistant": {
+        "title": "AI Assistant",
+        "description": "Get personalized guidance and instant answers powered by our inclusive AI assistant."
+      },
+      "trackStatus": {
+        "title": "Track Status",
+        "description": "Monitor your applications and service requests with real-time accessible dashboards."
+      },
+      "accessibleDesign": {
+        "title": "Accessible Design",
+        "description": "Every feature is built for accessibility compliance with adaptable interfaces."
+      },
+      "nearbyServices": {
+        "title": "Nearby Services",
+        "description": "Location-based service discovery with detailed accessibility information for each venue."
+      }
+    }
+  },
+  "mobile": {
+    "eyebrow": "MOBILE EXPERIENCE",
+    "title": "Accessible Anywhere",
+    "description": "Sabilouna is fully optimized for mobile access.",
+    "features": {
+      "otp": "OTP & Magic Link login — no password needed",
+      "modes": "Accessibility modes: high contrast, large text, reduced motion",
+      "submit": "Submit and track requests easily",
+      "filter": "Filter institutions by proximity"
+    },
+    "store": {
+      "appStore": "App Store",
+      "googlePlay": "Google Play",
+      "appStoreAria": "Download on the App Store",
+      "googlePlayAria": "Get it on Google Play"
+    },
+    "footnote": "Mobile app mockup for preview purposes."
+  },
+  "contact": {
+    "heading": "Get in Touch",
+    "description": "Have a question or need assistance? We're here to help.",
+    "fields": {
+      "fullName": "Full Name",
+      "email": "Email Address",
+      "subject": "Subject",
+      "message": "Message"
+    },
+    "actions": {
+      "send": "Send Message"
+    },
+    "success": {
+      "title": "Message sent successfully!",
+      "subtitle": "We'll respond as soon as possible.",
+      "sendAnother": "Send another message"
+    },
+    "errors": {
+      "summaryTitle": "Please correct the following errors:",
+      "fullNameRequired": "Full name is required.",
+      "emailRequired": "Email address is required.",
+      "emailInvalid": "Please enter a valid email address.",
+      "subjectRequired": "Subject is required.",
+      "messageRequired": "Message is required."
+    }
+  },
+  "register": {
+    "title": "Register",
+    "subtitle": "Complete the steps to create your account.",
+    "formAriaLabel": "Registration form",
+    "stepLabel": "Step {current} of {total}",
+    "progressLabel": "Registration progress: {percent}%",
+
+    "steps": {
+      "accountType": "Account type",
+      "personalInfo": "Personal information",
+      "details": "Profile & Accessibility",
+      "documents": "Documents",
+      "review": "Review"
+    },
+
+    "brand": {
+      "slogan": "Your path to accessible services — simplified.",
+      "description": "Sabilouna connects citizens and people with disabilities to inclusive services and institutions in Tunisia.",
+      "highlight1": "Find accessible services near you",
+      "highlight2": "Track your requests in real-time",
+      "highlight3": "AI accessibility guidance"
+    },
+
+    "accountType": {
+      "legend": "Which type of account would you like to create?",
+      "handicapped": "Person with disability",
+      "institution": "Institution"
+    },
+
+    "fields": {
+      "fullName": "Full name",
+      "fullNamePlaceholder": "First and last name",
+      "cardNumber": "Card Number",
+      "cardNumberPlaceholder": "Enter Your Card Number",
+      "email": "Email address",
+      "emailPlaceholder": "you@example.com",
+
+      "phone": "Phone",
+      "phonePlaceholder": "+216 XX XXX XXX",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "dateOfBirth": "Date of birth",
+      "governorate": "Governorate",
+      "governoratePlaceholder": "Select a governorate",
+      "city": "City",
+      "cityPlaceholder": "Your city",
+      "caregiver": "Account used by",
+      "caregiverSelf": "Myself",
+      "caregiverOther": "Caregiver / Guardian",
+      "handicapType": "Type(s) of disability",
+      "requiredAccommodation": "Desired accommodations",
+      "institutionName": "Institution name",
+      "institutionNamePlaceholder": "Official name",
+      "institutionPhone": "Institution phone",
+      "institutionEmail": "Institution email",
+      "institutionGovernorate": "Governorate",
+      "institutionCity": "City",
+      "website": "Website (optional)",
+      "websitePlaceholder": "https://",
+      "typeOfServices": "Types of services offered",
+      "accessible": "Is the institution accessible?",
+      "accessibleYes": "Yes",
+      "accessibleNo": "No",
+      "specificEquipment": "Available equipment"
+    },
+
+    "otp": {
+      "title": "Verification code",
+      "subtitle": "A 6-digit code has been sent to {email}.",
+      "inputAriaLabel": "Digit {index} of OTP code",
+      "confirm": "Confirm code",
+      "resend": "Resend code",
+      "sending": "Sending…"
+    },
+
+    "documents": {
+      "hint": "Accepted formats: PDF, JPG, PNG — max 10 MB per file.",
+      "mainLabel": "Supporting documents (disability card, medical certificate)",
+      "mainLabelInstitution": "Institution documents",
+      "caregiverLabel": "Caregiver / guardian authorization",
+      "browse": "Browse",
+      "remove": "Remove {name}",
+      "required": "*"
+    },
+
+    "review": {
+      "title": "Review",
+      "accountType": "Account type",
+      "handicapped": "Person with disability",
+      "institution": "Institution",
+      "fullName": "Full name",
+      "cardNumber": "Card Number",
+      "phone": "Phone",
+      "email": "Email",
+      "dateOfBirth": "Date of birth",
+      "governorate": "Governorate",
+      "city": "City",
+      "caregiver": "Account used by",
+      "handicapType": "Type(s) of disability",
+      "accommodations": "Accommodations",
+      "institutionName": "Institution",
+      "website": "Website",
+      "services": "Services",
+      "accessible": "Accessible",
+      "equipment": "Equipment",
+      "documents": "Documents",
+      "pendingTitle": "Status: Pending validation",
+      "pendingBody": "Your file will be reviewed by our team within 3 to 5 business days."
+    },
+
+    "actions": {
+      "next": "Next",
+      "back": "Back",
+      "submit": "Submit",
+      "submitting": "Submitting…",
+      "sendOtp": "Send verification code",
+      "sendingOtp": "Sending…"
+    },
+
+    "links": {
+      "backToLogin": "Already have an account?",
+      "loginLink": "Log in"
+    },
+
+    "errors": {
+      "summaryTitle": "Please correct the following errors:",
+      "fullNameMin": "Full name must be at least 3 characters long.",
+      "emailRequired": "Email address is required.",
+      "emailInvalid": "Please enter a valid email address.",
+      "phoneInvalid": "Invalid phone number (e.g., +21612345678).",
+      "passwordMin": "Password must be at least 8 characters long.",
+      "required": "This field is required.",
+      "otpLength": "Code must be exactly 6 digits.",
+      "otpNumeric": "Code must contain only numbers.",
+      "urlInvalid": "Please enter a valid URL (https://...).",
+      "Invalid input: expected number, received undefined": "Invalid input: number expected",
+      "minLength": "Must be at least {min} characters"
+    }
+  },
+  "login": {
+    "title": "Welcome",
+    "subtitle": "Sign in to access your account.",
+    "formAriaLabel": "Email login form",
+    "carteFormAriaLabel": "Handicap card login form",
+    "tabs": {
+      "ariaLabel": "Login method",
+      "email": "Email & Password",
+      "carte": "ID Card",
+      "emailActive": "Email and password tab activated",
+      "carteActive": "ID Card tab activated"
+    },
+    "carteNotice": {
+      "title": "Login with Handicap Card",
+      "description": "This method is reserved for people with disabilities."
+    },
+    "fields": {
+      "email": "Email",
+      "emailPlaceholder": "you@example.com",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password",
+      "cardId": "Handicap card number",
+      "cardIdHint": "Enter the number shown on your card."
+    },
+    "actions": {
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign in",
+      "submitting": "Signing in…",
+      "submitWithCarte": "Sign in with my card"
+    },
+    "errors": {
+      "summaryTitle": "Please fix the following errors:",
+      "emailRequired": "Email address is required.",
+      "emailInvalid": "Please enter a valid email address.",
+      "passwordMin": "Password must be at least 8 characters.",
+      "required": "This field is required."
+    }
+  },
+  "resetPassword": {
+    "stepEmail": {
+      "title": "Forgot your password?",
+      "subtitle": "Enter your email address and we'll send you a 6-digit reset code.",
+      "formAriaLabel": "Password reset request form"
+    },
+    "stepConfirm": {
+      "title": "Check your inbox",
+      "subtitle": "Enter the code sent to {email} and choose a new password.",
+      "subtitleShort": "Enter the code sent to your email.",
+      "formAriaLabel": "Password reset confirmation form"
+    },
+    "success": {
+      "title": "Password updated!",
+      "subtitle": "Your password has been changed successfully. You can now sign in.",
+      "goLogin": "Go to login"
+    },
+    "fields": {
+      "email": "Email Address",
+      "emailPlaceholder": "you@example.com",
+      "code": "Reset Code",
+      "codeHint": "Enter the 6-digit code sent to your email.",
+      "newPassword": "New Password",
+      "newPasswordPlaceholder": "••••••••",
+      "showPassword": "Show password",
+      "hidePassword": "Hide password"
+    },
+    "actions": {
+      "send": "Send Reset Code",
+      "sending": "Sending…",
+      "confirm": "Reset Password",
+      "confirming": "Resetting…",
+      "backToLogin": "Back to login",
+      "resend": "Resend code"
+    },
+    "errors": {
+      "summaryTitle": "Please fix the following errors:",
+      "emailRequired": "Email address is required.",
+      "emailInvalid": "Please enter a valid email address.",
+      "codeLength": "The code must be exactly 6 digits.",
+      "passwordMin": "Password must be at least 8 characters."
+    }
+  },
+  "backendErrors": {
+    "generic": {
+      "unknown": "Something went wrong. Please try again.",
+      "network": "Network error. Please check your connection.",
+      "server": "Server error. Please try again later."
+    },
+    "auth": {
+      "invalidCredentials": "Invalid email or password.",
+      "emailNotConfirmed": "Please confirm your email before signing in.",
+      "accountSuspended": "Your account has been suspended. Contact support.",
+      "invalidHandicapCard": "The handicap card number is invalid.",
+      "otpInvalid": "The verification code is invalid or has expired.",
+      "otpExpired": "The verification code has expired. Please request a new one.",
+      "otpIncorrect": "Incorrect verification code.",
+      "magicLinkExpired": "This login link is invalid or has expired.",
+      "emailTaken": "This email address is already registered.",
+      "roleNotFound": "The selected role does not exist.",
+      "userNotFound": "No account found with this information.",
+      "documentRequired": "Please upload at least one document.",
+      "missingHandicapFields": "Please complete all required handicap profile fields.",
+      "duplicateFiles": "Duplicate files are not allowed."
+    }
+  }
+}

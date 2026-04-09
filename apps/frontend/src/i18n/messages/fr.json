@@ -1,0 +1,346 @@
+{
+  "common": {
+    "required": "Obligatoire"
+  },
+  "accessibility": {
+    "skipToContent": "Aller au contenu principal"
+  },
+  "nav": {
+    "homeAriaLabel": "Sabilouna - Accueil",
+    "logoAlt": "Sabilouna",
+    "homeLinkText": "Accueil",
+    "mainNav": "Navigation principale",
+    "mobileNav": "Navigation mobile",
+    "menu": "Menu",
+    "openMenu": "Ouvrir le menu",
+    "language": "Langue",
+    "home": "Accueil",
+    "mission": "Notre mission",
+    "contact": "Contact",
+    "localeName": {
+      "en": "English",
+      "fr": "Français",
+      "ar": "العربية"
+    }
+  },
+  "hero": {
+    "badge": "L’inclusion pour tous",
+    "title": "Votre passerelle vers des services inclusifs",
+    "description": "Sabilouna aide les citoyens et les personnes en situation de handicap à trouver des lieux sûrs, accéder aux services et accomplir les démarches administratives — au même endroit.",
+    "ctaPrimary": "Commencer",
+    "ctaSecondary": "Découvrir les services"
+  },
+  "services": {
+    "heading": "Tout ce dont vous avez besoin",
+    "description": "Des outils et services complets conçus avec l’accessibilité au cœur de leur conception.",
+    "items": {
+      "safeSpaces": {
+        "title": "Trouver des espaces sécurisés",
+        "description": "Découvrez des lieux vérifiés en matière d’accessibilité, des environnements sûrs et des espaces inclusifs près de vous."
+      },
+      "submitForms": {
+        "title": "Soumettre des formulaires",
+        "description": "Formulaires numériques accessibles avec assistance, sauvegarde automatique et options multilingues."
+      },
+      "aiAssistant": {
+        "title": "Assistant IA",
+        "description": "Obtenez des conseils personnalisés et des réponses instantanées grâce à notre assistant intelligent inclusif."
+      },
+      "trackStatus": {
+        "title": "Suivre le statut",
+        "description": "Suivez vos demandes et services via des tableaux de bord accessibles en temps réel."
+      },
+      "accessibleDesign": {
+        "title": "Conception accessible",
+        "description": "Chaque fonctionnalité est développée selon les normes d’accessibilité avec des interfaces adaptables."
+      },
+      "nearbyServices": {
+        "title": "Services à proximité",
+        "description": "Découvrez les services selon votre localisation avec des informations détaillées sur leur accessibilité."
+      }
+    }
+  },
+  "mobile": {
+    "eyebrow": "EXPÉRIENCE MOBILE",
+    "title": "Accessible partout",
+    "description": "Sabilouna est entièrement optimisée pour un accès mobile.",
+    "features": {
+      "otp": "Connexion par OTP & lien magique — sans mot de passe",
+      "modes": "Modes d’accessibilité : contraste élevé, texte agrandi, réduction des animations",
+      "submit": "Soumettre et suivre vos demandes facilement",
+      "filter": "Filtrer les institutions par proximité"
+    },
+    "store": {
+      "appStore": "App Store",
+      "googlePlay": "Google Play",
+      "appStoreAria": "Télécharger sur l’App Store",
+      "googlePlayAria": "Obtenir sur Google Play"
+    },
+    "footnote": "Maquette mobile à titre de prévisualisation."
+  },
+  "contact": {
+    "heading": "Contactez-nous",
+    "description": "Vous avez une question ou besoin d’aide ? Nous sommes là pour vous accompagner.",
+    "fields": {
+      "fullName": "Nom complet",
+      "email": "Adresse e-mail",
+      "subject": "Objet",
+      "message": "Message"
+    },
+    "actions": {
+      "send": "Envoyer le message"
+    },
+    "success": {
+      "title": "Message envoyé avec succès !",
+      "subtitle": "Nous vous répondrons dès que possible.",
+      "sendAnother": "Envoyer un autre message"
+    },
+    "errors": {
+      "summaryTitle": "Veuillez corriger les erreurs suivantes :",
+      "fullNameRequired": "Le nom complet est obligatoire.",
+      "emailRequired": "L’adresse e-mail est obligatoire.",
+      "emailInvalid": "Veuillez saisir une adresse e-mail valide.",
+      "subjectRequired": "L’objet est obligatoire.",
+      "messageRequired": "Le message est obligatoire."
+    }
+  },
+  "register": {
+    "title": "Inscription",
+    "subtitle": "Remplissez les étapes pour créer votre compte.",
+    "formAriaLabel": "Formulaire d'inscription",
+    "stepLabel": "Étape {current} sur {total}",
+    "progressLabel": "Progression de l'inscription : {percent}%",
+    "steps": {
+      "accountType": "Type de compte",
+      "personalInfo": "Informations personnelles",
+      "details": "Profil & Accessibilité",
+      "documents": "Documents",
+      "review": "Récapitulatif"
+    },
+    "brand": {
+      "slogan": "Votre chemin vers des services accessibles — simplifié.",
+      "description": "Sabilouna connecte les citoyens et personnes handicapées aux services et institutions inclusifs en Tunisie.",
+      "highlight1": "Trouvez des services accessibles près de vous",
+      "highlight2": "Suivez vos demandes en temps réel",
+      "highlight3": "Orientation accessibilité par IA"
+    },
+    "accountType": {
+      "legend": "Quel type de compte souhaitez-vous créer ?",
+      "handicapped": "Personne handicapée",
+      "institution": "Institution"
+    },
+    "fields": {
+      "fullName": "Nom complet",
+      "fullNamePlaceholder": "Prénom et nom",
+      "cardNumber": "Numéro de carte",
+      "cardNumberPlaceholder": "Entrez le numéro de votre carte",
+      "email": "Adresse e-mail",
+      "emailPlaceholder": "vous@exemple.com",
+
+      "phone": "Téléphone",
+      "phonePlaceholder": "+216 XX XXX XXX",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe",
+      "dateOfBirth": "Date de naissance",
+      "governorate": "Gouvernorat",
+      "governoratePlaceholder": "Sélectionnez un gouvernorat",
+      "city": "Ville",
+      "cityPlaceholder": "Votre ville",
+      "caregiver": "Compte utilisé par",
+      "caregiverSelf": "Moi-même",
+      "caregiverOther": "Aidant / Tuteur",
+      "handicapType": "Type(s) de handicap",
+      "requiredAccommodation": "Aménagements souhaités",
+      "institutionName": "Nom de l'institution",
+      "institutionNamePlaceholder": "Nom officiel",
+      "institutionPhone": "Téléphone de l'institution",
+      "institutionEmail": "E-mail de l'institution",
+      "institutionGovernorate": "Gouvernorat",
+      "institutionCity": "Ville",
+      "website": "Site web (optionnel)",
+      "websitePlaceholder": "https://",
+      "typeOfServices": "Types de services proposés",
+      "accessible": "L'établissement est-il accessible ?",
+      "accessibleYes": "Oui",
+      "accessibleNo": "Non",
+      "specificEquipment": "Équipements disponibles"
+    },
+    "otp": {
+      "title": "Code de vérification",
+      "subtitle": "Un code à 6 chiffres a été envoyé à {email}.",
+      "inputAriaLabel": "Chiffre {index} du code OTP",
+      "confirm": "Confirmer le code",
+      "resend": "Renvoyer le code",
+      "sending": "Envoi en cours…"
+    },
+    "documents": {
+      "hint": "Formats acceptés : PDF, JPG, PNG — max 10 Mo par fichier.",
+      "mainLabel": "Justificatifs (carte de handicap, certificat médical)",
+      "mainLabelInstitution": "Documents de l'institution",
+      "caregiverLabel": "Autorisation de l'aidant / tuteur",
+      "browse": "Parcourir",
+      "remove": "Supprimer {name}",
+      "uploaded": "Documents téléchargés",
+      "required": "*"
+    },
+    "review": {
+      "title": "Récapitulatif",
+      "accountType": "Type de compte",
+      "handicapped": "Personne handicapée",
+      "institution": "Institution",
+      "fullName": "Nom complet",
+      "cardNumber": "Numéro de carte",
+      "phone": "Téléphone",
+      "email": "E-mail",
+      "dateOfBirth": "Date de naissance",
+      "governorate": "Gouvernorat",
+      "city": "Ville",
+      "caregiver": "Compte utilisé par",
+      "handicapType": "Type(s) de handicap",
+      "accommodations": "Aménagements",
+      "institutionName": "Institution",
+      "website": "Site web",
+      "services": "Services",
+      "accessible": "Accessible",
+      "equipment": "Équipements",
+      "documents": "Documents",
+      "pendingTitle": "Statut : En attente de validation",
+      "pendingBody": "Votre dossier sera examiné par notre équipe sous 3 à 5 jours ouvrables"
+    },
+    "actions": {
+      "next": "Suivant",
+      "back": "Retour",
+      "submit": "Soumettre",
+      "submitting": "Envoi en cours…",
+      "sendOtp": "Envoyer le code de vérification",
+      "sendingOtp": "Envoi en cours…"
+    },
+    "links": {
+      "backToLogin": "Déjà un compte ?",
+      "loginLink": "Se connecter"
+    },
+    "errors": {
+      "summaryTitle": "Veuillez corriger les erreurs suivantes :",
+      "fullNameMin": "Le nom complet doit comporter au moins 3 caractères.",
+      "emailRequired": "L'adresse e-mail est obligatoire.",
+      "emailInvalid": "Veuillez saisir une adresse e-mail valide.",
+      "phoneInvalid": "Numéro de téléphone invalide (ex : +21612345678).",
+      "passwordMin": "Le mot de passe doit comporter au moins 8 caractères.",
+      "required": "Ce champ est obligatoire.",
+      "otpLength": "Le code doit comporter exactement 6 chiffres.",
+      "otpNumeric": "Le code doit contenir uniquement des chiffres.",
+      "urlInvalid": "Veuillez saisir une URL valide (https://...).",
+      "Invalid input: expected number, received undefined": "Entrée invalide : nombre attendu",
+      "minLength": "Doit contenir au moins {min} caractères"
+    }
+  },
+  "login": {
+    "title": "Bienvenue",
+    "subtitle": "Connectez-vous pour accéder à votre compte.",
+    "formAriaLabel": "Formulaire de connexion par email",
+    "carteFormAriaLabel": "Formulaire de connexion par carte handicap",
+    "tabs": {
+      "ariaLabel": "Méthode de connexion",
+      "email": "Email & Mot de passe",
+      "carte": "Carte ID",
+      "emailActive": "Onglet Email et mot de passe activé",
+      "carteActive": "Onglet Carte ID activé"
+    },
+    "carteNotice": {
+      "title": "Connexion avec Carte Handicap",
+      "description": "Cette méthode est réservée aux personnes en situation de handicap."
+    },
+    "fields": {
+      "email": "Email",
+      "emailPlaceholder": "vous@exemple.com",
+      "password": "Mot de passe",
+      "passwordPlaceholder": "••••••••",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe",
+      "cardId": "Numéro de carte handicap",
+      "cardIdHint": "Saisissez le numéro figurant sur votre carte."
+    },
+    "actions": {
+      "forgotPassword": "Mot de passe oublié ?",
+      "submit": "Se connecter",
+      "submitting": "Connexion en cours…",
+      "submitWithCarte": "Se connecter avec ma carte"
+    },
+    "errors": {
+      "summaryTitle": "Veuillez corriger les erreurs suivantes :",
+      "emailRequired": "L'adresse e-mail est obligatoire.",
+      "emailInvalid": "Veuillez saisir une adresse e-mail valide.",
+      "passwordMin": "Le mot de passe doit comporter au moins 8 caractères.",
+      "required": "Ce champ est obligatoire."
+    }
+  },
+  "resetPassword": {
+    "stepEmail": {
+      "title": "Mot de passe oublié ?",
+      "subtitle": "Saisissez votre adresse email et nous vous enverrons un code de réinitialisation à 6 chiffres.",
+      "formAriaLabel": "Formulaire de demande de réinitialisation"
+    },
+    "stepConfirm": {
+      "title": "Vérifiez votre boîte mail",
+      "subtitle": "Entrez le code envoyé à {email} et choisissez un nouveau mot de passe.",
+      "subtitleShort": "Entrez le code envoyé à votre adresse email.",
+
+      "formAriaLabel": "Formulaire de confirmation de réinitialisation"
+    },
+    "success": {
+      "title": "Mot de passe mis à jour !",
+      "subtitle": "Votre mot de passe a été modifié avec succès. Vous pouvez maintenant vous connecter.",
+      "goLogin": "Aller à la connexion"
+    },
+    "fields": {
+      "email": "Adresse email",
+      "emailPlaceholder": "vous@exemple.com",
+      "code": "Code de réinitialisation",
+      "codeHint": "Entrez le code à 6 chiffres envoyé à votre adresse email.",
+      "newPassword": "Nouveau mot de passe",
+      "newPasswordPlaceholder": "••••••••",
+      "showPassword": "Afficher le mot de passe",
+      "hidePassword": "Masquer le mot de passe"
+    },
+    "actions": {
+      "send": "Envoyer le code",
+      "sending": "Envoi en cours…",
+      "confirm": "Réinitialiser le mot de passe",
+      "confirming": "Réinitialisation…",
+      "backToLogin": "Retour à la connexion",
+      "resend": "Renvoyer le code"
+    },
+    "errors": {
+      "summaryTitle": "Veuillez corriger les erreurs suivantes :",
+      "emailRequired": "L'adresse email est requise.",
+      "emailInvalid": "Veuillez saisir une adresse email valide.",
+      "codeLength": "Le code doit comporter exactement 6 chiffres.",
+      "passwordMin": "Le mot de passe doit comporter au moins 8 caractères."
+    }
+  },
+  "backendErrors": {
+    "generic": {
+      "unknown": "Une erreur est survenue. Veuillez réessayer.",
+      "network": "Erreur réseau. Vérifiez votre connexion.",
+      "server": "Erreur serveur. Veuillez réessayer plus tard."
+    },
+    "auth": {
+      "invalidCredentials": "Email ou mot de passe invalide.",
+      "emailNotConfirmed": "Veuillez confirmer votre email avant de vous connecter.",
+      "accountSuspended": "Votre compte est suspendu. Contactez le support.",
+      "invalidHandicapCard": "Le numéro de carte handicap est invalide.",
+      "otpInvalid": "Le code de vérification est invalide ou a expiré.",
+      "otpExpired": "Le code a expiré. Veuillez en demander un nouveau.",
+      "otpIncorrect": "Code de vérification incorrect.",
+      "magicLinkExpired": "Ce lien de connexion est invalide ou a expiré.",
+      "emailTaken": "Cette adresse email est déjà utilisée.",
+      "roleNotFound": "Le rôle sélectionné n'existe pas.",
+      "userNotFound": "Aucun compte trouvé avec ces informations.",
+      "documentRequired": "Veuillez téléverser au moins un document.",
+      "missingHandicapFields": "Veuillez compléter tous les champs du profil handicap.",
+      "duplicateFiles": "Des fichiers en double ont été soumis."
+    }
+  }
+}

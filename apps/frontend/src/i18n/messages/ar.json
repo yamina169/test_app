@@ -1,0 +1,356 @@
+{
+  "common": {
+    "required": "إلزامي"
+  },
+  "accessibility": {
+    "skipToContent": "الانتقال إلى المحتوى الرئيسي"
+  },
+  "nav": {
+    "homeAriaLabel": "سبلونا - الصفحة الرئيسية",
+    "logoAlt": "سبلونا",
+    "homeLinkText": "الرئيسية",
+    "mainNav": "التنقّل الرئيسي",
+    "mobileNav": "التنقّل على الهاتف",
+    "menu": "القائمة",
+    "openMenu": "فتح القائمة",
+    "language": "اللغة",
+    "home": "الرئيسية",
+    "mission": "رسالتنا",
+    "contact": "اتصل بنا",
+    "localeName": {
+      "en": "English",
+      "fr": "Français",
+      "ar": "العربية"
+    }
+  },
+  "hero": {
+    "badge": "الشمول للجميع",
+    "title": "بوابتك إلى خدمات شاملة",
+    "description": "تساعد سبلونا المواطنين وذوي الإعاقة على العثور على أماكن آمنة، والوصول إلى الخدمات، وإتمام الإجراءات الإدارية — في مكان واحد.",
+    "ctaPrimary": "ابدأ الآن",
+    "ctaSecondary": "تصفّح الخدمات"
+  },
+  "services": {
+    "heading": "كل ما تحتاجه في مكان واحد",
+    "description": "أدوات وخدمات متكاملة تم تصميمها مع إمكانية الوصول في صميمها.",
+    "items": {
+      "safeSpaces": {
+        "title": "البحث عن أماكن آمنة",
+        "description": "اكتشف أماكن معتمدة من حيث سهولة الوصول، وبيئات آمنة، ومساحات شاملة بالقرب منك."
+      },
+      "submitForms": {
+        "title": "تقديم الطلبات",
+        "description": "نماذج رقمية سهلة الاستخدام مع دعم مساعد، وحفظ تلقائي، وخيارات متعددة اللغات."
+      },
+      "aiAssistant": {
+        "title": "المساعد الذكي",
+        "description": "احصل على إرشادات مخصصة وإجابات فورية مدعومة بمساعد ذكي شامل."
+      },
+      "trackStatus": {
+        "title": "تتبع الحالة",
+        "description": "تابع طلباتك ومعاملاتك من خلال لوحات تحكم واضحة وسهلة الوصول."
+      },
+      "accessibleDesign": {
+        "title": "تصميم قابل للوصول",
+        "description": "تم تطوير كل ميزة وفق معايير إمكانية الوصول مع واجهات قابلة للتكيف."
+      },
+      "nearbyServices": {
+        "title": "الخدمات القريبة",
+        "description": "اكتشف الخدمات حسب موقعك مع معلومات تفصيلية حول سهولة الوصول لكل جهة."
+      }
+    }
+  },
+  "mobile": {
+    "eyebrow": "تجربة الهاتف",
+    "title": "متاح في أي مكان",
+    "description": "سابلونا مُحسّنة بالكامل للاستخدام عبر الهاتف.",
+    "features": {
+      "otp": "تسجيل الدخول عبر OTP والرابط السحري — بدون كلمة مرور",
+      "modes": "أنماط إمكانية الوصول: تباين عالٍ، نص أكبر، تقليل الحركة",
+      "submit": "قدّم الطلبات وتابع حالتها بسهولة",
+      "filter": "فلترة المؤسسات حسب القرب"
+    },
+    "store": {
+      "appStore": "App Store",
+      "googlePlay": "Google Play",
+      "appStoreAria": "تنزيل من App Store",
+      "googlePlayAria": "الحصول عليه من Google Play"
+    },
+    "footnote": "واجهة الهاتف للعرض التجريبي فقط."
+  },
+  "contact": {
+    "heading": "تواصل معنا",
+    "description": "هل لديك سؤال أو تحتاج إلى مساعدة؟ نحن هنا لخدمتك.",
+    "fields": {
+      "fullName": "الاسم الكامل",
+      "email": "البريد الإلكتروني",
+      "subject": "الموضوع",
+      "message": "الرسالة"
+    },
+    "actions": {
+      "send": "إرسال الرسالة"
+    },
+    "success": {
+      "title": "تم إرسال الرسالة بنجاح!",
+      "subtitle": "سنقوم بالرد عليك في أقرب وقت ممكن.",
+      "sendAnother": "إرسال رسالة أخرى"
+    },
+    "errors": {
+      "summaryTitle": "يرجى تصحيح الأخطاء التالية:",
+      "fullNameRequired": "الاسم الكامل مطلوب.",
+      "emailRequired": "البريد الإلكتروني مطلوب.",
+      "emailInvalid": "يرجى إدخال بريد إلكتروني صالح.",
+      "subjectRequired": "الموضوع مطلوب.",
+      "messageRequired": "الرسالة مطلوبة."
+    }
+  },
+  "register": {
+    "title": "التسجيل",
+    "subtitle": "أكمل الخطوات لإنشاء حسابك.",
+    "formAriaLabel": "نموذج التسجيل",
+    "stepLabel": "الخطوة {current} من {total}",
+    "progressLabel": "تقدم التسجيل: {percent}%",
+
+    "steps": {
+      "accountType": "نوع الحساب",
+      "personalInfo": "المعلومات الشخصية",
+      "details": "الملف الشخصي وسهولة الوصول",
+      "documents": "المستندات",
+      "review": "مراجعة"
+    },
+
+    "brand": {
+      "slogan": "طريقك إلى الخدمات المتاحة — ببساطة.",
+      "description": "صابلونا يربط المواطنين والأشخاص ذوي الإعاقة بالخدمات والمؤسسات الشاملة في تونس.",
+      "highlight1": "ابحث عن خدمات متاحة بالقرب منك",
+      "highlight2": "تابع طلباتك في الوقت الفعلي",
+      "highlight3": "توجيه الوصول باستخدام الذكاء الاصطناعي"
+    },
+
+    "accountType": {
+      "legend": "أي نوع من الحسابات ترغب بإنشائه؟",
+      "handicapped": "شخص ذو إعاقة",
+      "institution": "مؤسسة"
+    },
+
+    "fields": {
+      "fullName": "الاسم الكامل",
+      "fullNamePlaceholder": "الاسم الأول واللقب",
+      "email": "البريد الإلكتروني",
+      "cardNumber": "رقم البطاقة",
+      "cardNumberPlaceholder": "أدخل رقم بطاقتك",
+      "emailPlaceholder": "you@example.com",
+      "phone": "رقم الهاتف",
+      "phonePlaceholder": "+216 XX XXX XXX",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "••••••••",
+      "showPassword": "إظهار كلمة المرور",
+      "hidePassword": "إخفاء كلمة المرور",
+      "dateOfBirth": "تاريخ الميلاد",
+      "governorate": "الولاية",
+      "governoratePlaceholder": "اختر ولاية",
+      "city": "المدينة",
+      "cityPlaceholder": "مدينتك",
+      "caregiver": "الحساب مستخدم من قبل",
+      "caregiverSelf": "نفسي",
+      "caregiverOther": "مقدم الرعاية / الوصي",
+      "handicapType": "نوع/أنواع الإعاقة",
+      "requiredAccommodation": "التسهيلات المطلوبة",
+      "institutionName": "اسم المؤسسة",
+      "institutionNamePlaceholder": "الاسم الرسمي",
+      "institutionPhone": "هاتف المؤسسة",
+      "institutionEmail": "البريد الإلكتروني للمؤسسة",
+      "institutionGovernorate": "الولاية",
+      "institutionCity": "المدينة",
+      "website": "الموقع الإلكتروني (اختياري)",
+      "websitePlaceholder": "https://",
+      "typeOfServices": "أنواع الخدمات المقدمة",
+      "accessible": "هل المؤسسة متاحة؟",
+      "accessibleYes": "نعم",
+      "accessibleNo": "لا",
+      "specificEquipment": "المعدات المتوفرة"
+    },
+
+    "otp": {
+      "title": "رمز التحقق",
+      "subtitle": "تم إرسال رمز مكون من 6 أرقام إلى {email}.",
+      "inputAriaLabel": "الرقم {index} من رمز التحقق",
+      "confirm": "تأكيد الرمز",
+      "resend": "إعادة إرسال الرمز",
+      "sending": "جارٍ الإرسال…"
+    },
+
+    "documents": {
+      "hint": "الصيغ المقبولة: PDF, JPG, PNG — الحد الأقصى 10 ميغابايت لكل ملف.",
+      "mainLabel": "المستندات الداعمة (بطاقة الإعاقة، الشهادة الطبية)",
+      "mainLabelInstitution": "مستندات المؤسسة",
+      "caregiverLabel": "تفويض مقدم الرعاية / الوصي",
+      "browse": "تصفح",
+      "remove": "حذف {name}",
+      "required": "*"
+    },
+
+    "review": {
+      "title": "مراجعة",
+      "accountType": "نوع الحساب",
+      "handicapped": "شخص ذو إعاقة",
+      "institution": "مؤسسة",
+      "fullName": "الاسم الكامل",
+      "cardNumber": "رقم البطاقة",
+      "phone": "رقم الهاتف",
+      "email": "البريد الإلكتروني",
+      "dateOfBirth": "تاريخ الميلاد",
+      "governorate": "الولاية",
+      "city": "المدينة",
+      "caregiver": "الحساب مستخدم من قبل",
+      "handicapType": "نوع/أنواع الإعاقة",
+      "accommodations": "التسهيلات",
+      "institutionName": "المؤسسة",
+      "website": "الموقع الإلكتروني",
+      "services": "الخدمات",
+      "accessible": "متاحة",
+      "equipment": "المعدات",
+      "documents": "المستندات",
+      "pendingTitle": "الحالة: في انتظار التحقق",
+      "pendingBody": "سيتم مراجعة ملفك من قبل فريقنا خلال 3 إلى 5 أيام عمل."
+    },
+
+    "actions": {
+      "next": "التالي",
+      "back": "رجوع",
+      "submit": "إرسال",
+      "submitting": "جارٍ الإرسال…",
+      "sendOtp": "إرسال رمز التحقق",
+      "sendingOtp": "جارٍ الإرسال…"
+    },
+
+    "links": {
+      "backToLogin": "هل لديك حساب بالفعل؟",
+      "loginLink": "تسجيل الدخول"
+    },
+
+    "errors": {
+      "summaryTitle": "يرجى تصحيح الأخطاء التالية:",
+      "fullNameMin": "يجب أن يكون الاسم الكامل مكونًا من 3 أحرف على الأقل.",
+      "emailRequired": "البريد الإلكتروني مطلوب.",
+      "emailInvalid": "يرجى إدخال بريد إلكتروني صالح.",
+      "phoneInvalid": "رقم الهاتف غير صالح (مثال: +21612345678).",
+      "passwordMin": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
+      "required": "هذا الحقل مطلوب.",
+      "otpLength": "يجب أن يتكون الرمز من 6 أرقام بالضبط.",
+      "otpNumeric": "يجب أن يحتوي الرمز على أرقام فقط.",
+      "urlInvalid": "يرجى إدخال رابط صالح (https://...).",
+
+      "Invalid input: expected number, received undefined": "إدخال غير صالح: مطلوب رقم",
+      "minLength": "يجب أن يحتوي على {min} أحرف على الأقل"
+    }
+  },
+
+  "login": {
+    "title": "مرحباً",
+    "subtitle": "سجّل دخولك للوصول إلى حسابك.",
+    "formAriaLabel": "نموذج تسجيل الدخول بالبريد الإلكتروني",
+    "carteFormAriaLabel": "نموذج تسجيل الدخول ببطاقة الإعاقة",
+    "tabs": {
+      "ariaLabel": "طريقة تسجيل الدخول",
+      "email": "البريد الإلكتروني وكلمة المرور",
+      "carte": "بطاقة الهوية",
+      "emailActive": "تم تفعيل تبويب البريد الإلكتروني",
+      "carteActive": "تم تفعيل تبويب بطاقة الهوية"
+    },
+    "carteNotice": {
+      "title": "تسجيل الدخول ببطاقة الإعاقة",
+      "description": "هذه الطريقة مخصصة للأشخاص ذوي الإعاقة."
+    },
+    "fields": {
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "password": "كلمة المرور",
+      "passwordPlaceholder": "••••••••",
+      "showPassword": "إظهار كلمة المرور",
+      "hidePassword": "إخفاء كلمة المرور",
+      "cardId": "رقم بطاقة الإعاقة",
+      "cardIdHint": "أدخل الرقم المدوّن على بطاقتك."
+    },
+    "actions": {
+      "forgotPassword": "نسيت كلمة المرور؟",
+      "submit": "تسجيل الدخول",
+      "submitting": "جارٍ تسجيل الدخول…",
+      "submitWithCarte": "تسجيل الدخول ببطاقتي"
+    },
+    "errors": {
+      "summaryTitle": "يرجى تصحيح الأخطاء التالية:",
+      "emailRequired": "البريد الإلكتروني مطلوب.",
+      "emailInvalid": "يرجى إدخال بريد إلكتروني صحيح.",
+      "passwordMin": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل.",
+      "required": "هذا الحقل مطلوب."
+    }
+  },
+
+  "resetPassword": {
+    "stepEmail": {
+      "title": "نسيت كلمة المرور؟",
+      "subtitle": "أدخل بريدك الإلكتروني وسنرسل لك رمز إعادة تعيين مكوّن من 6 أرقام.",
+      "formAriaLabel": "نموذج طلب إعادة تعيين كلمة المرور"
+    },
+    "stepConfirm": {
+      "title": "تحقق من بريدك الإلكتروني",
+      "subtitle": "أدخل الرمز المرسل إلى {email} واختر كلمة مرور جديدة.",
+      "subtitleShort": "أدخل الرمز المرسل إلى بريدك الإلكتروني.",
+      "formAriaLabel": "نموذج تأكيد إعادة تعيين كلمة المرور"
+    },
+    "success": {
+      "title": "تم تحديث كلمة المرور!",
+      "subtitle": "تم تغيير كلمة مرورك بنجاح. يمكنك الآن تسجيل الدخول.",
+      "goLogin": "الذهاب إلى تسجيل الدخول"
+    },
+    "fields": {
+      "email": "البريد الإلكتروني",
+      "emailPlaceholder": "you@example.com",
+      "code": "رمز إعادة التعيين",
+      "codeHint": "أدخل الرمز المكوّن من 6 أرقام المرسل إلى بريدك الإلكتروني.",
+      "newPassword": "كلمة المرور الجديدة",
+      "newPasswordPlaceholder": "••••••••",
+      "showPassword": "إظهار كلمة المرور",
+      "hidePassword": "إخفاء كلمة المرور"
+    },
+    "actions": {
+      "send": "إرسال رمز الاسترداد",
+      "sending": "جارٍ الإرسال…",
+      "confirm": "إعادة تعيين كلمة المرور",
+      "confirming": "جارٍ الإعادة…",
+      "backToLogin": "العودة إلى تسجيل الدخول",
+      "resend": "إعادة إرسال الرمز"
+    },
+    "errors": {
+      "summaryTitle": "يرجى تصحيح الأخطاء التالية:",
+      "emailRequired": "البريد الإلكتروني مطلوب.",
+      "emailInvalid": "يرجى إدخال عنوان بريد إلكتروني صالح.",
+      "codeLength": "يجب أن يتكوّن الرمز من 6 أرقام بالضبط.",
+      "passwordMin": "يجب أن تتكوّن كلمة المرور من 8 أحرف على الأقل."
+    }
+  },
+  "backendErrors": {
+    "generic": {
+      "unknown": "حدث خطأ ما. يرجى المحاولة مرة أخرى.",
+      "network": "خطأ في الشبكة. يرجى التحقق من اتصالك.",
+      "server": "خطأ في الخادم. يرجى المحاولة لاحقاً."
+    },
+    "auth": {
+      "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
+      "emailNotConfirmed": "يرجى تأكيد بريدك الإلكتروني قبل تسجيل الدخول.",
+      "accountSuspended": "تم تعليق حسابك. تواصل مع الدعم.",
+      "invalidHandicapCard": "رقم بطاقة الإعاقة غير صالح.",
+      "otpInvalid": "رمز التحقق غير صالح أو انتهت صلاحيته.",
+      "otpExpired": "انتهت صلاحية الرمز. يرجى طلب رمز جديد.",
+      "otpIncorrect": "رمز التحقق غير صحيح.",
+      "magicLinkExpired": "رابط تسجيل الدخول غير صالح أو انتهت صلاحيته.",
+      "emailTaken": "عنوان البريد الإلكتروني مستخدم بالفعل.",
+      "roleNotFound": "الدور المحدد غير موجود.",
+      "userNotFound": "لم يتم العثور على حساب بهذه المعلومات.",
+      "documentRequired": "يرجى تحميل مستند واحد على الأقل.",
+      "missingHandicapFields": "يرجى إكمال جميع حقول ملف الإعاقة.",
+      "duplicateFiles": "تم إرسال ملفات مكررة."
+    }
+  }
+}
