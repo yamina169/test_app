@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import { DocumentType } from "@/domain/enums/document.enum";
 import type { AccountType } from "./register-form";
 
-interface FileEntry {
+export interface FileEntry {
   file: File;
   documentType: DocumentType;
 }

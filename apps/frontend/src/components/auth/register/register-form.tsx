@@ -18,7 +18,7 @@ import { RegisterStepDetails } from "./register-step-details";
 import { RegisterStepDocuments } from "./register-step-documents";
 import { RegisterStepReview } from "./register-step-review";
 import { RegisterStepOtp } from "./register-step-otp";
-
+import type { FileEntry } from "./register-step-documents";
 export type AccountType = "handicapped" | "institution";
 
 export interface RegisterStepProps {
@@ -27,11 +27,6 @@ export interface RegisterStepProps {
 
 const TOTAL_STEPS = 5;
 type OtpPhase = "idle" | "sending" | "waiting";
-
-interface FileEntry {
-  file: File;
-  documentType: string;
-}
 
 // ── Per-step partial schemas ──────────────────────────────────────
 const STEP_SCHEMAS: Partial<Record<number, z.ZodTypeAny>> = {

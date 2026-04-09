@@ -62,3 +62,9 @@ export async function gqlUpload<TData>(
 
   return json.data;
 }
+
+export async function apiGet<T>(path: string): Promise<T> {
+  const res = await fetch(`${API_URL}${path}`);
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}

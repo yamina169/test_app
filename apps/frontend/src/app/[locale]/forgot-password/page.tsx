@@ -23,7 +23,7 @@ export default function ResetPasswordPage() {
       <div className="flex w-full max-w-5xl overflow-hidden rounded-3xl border border-border shadow-lg md:h-150">
         {/* Brand panel — desktop only, same as login */}
         <div className="hidden md:flex md:w-[45%]">
-          <AuthBrandPanel className="h-full w-full" />
+          <AuthBrandPanel />
         </div>
 
         {/* Form panel */}
