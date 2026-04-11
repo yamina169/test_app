@@ -1,0 +1,423 @@
+@import "tailwindcss";
+
+:root {
+  /* Core */
+  --background: #f5f7fb;
+  --foreground: #1a2552;
+
+  /* Surfaces */
+  --card: #ffffff;
+  --card-foreground: #1a2552;
+
+  --popover: #ffffff;
+  --popover-foreground: #1a2552;
+
+  /* Brand */
+  --primary: #125be4;
+  --primary-foreground: #ffffff;
+
+  --navy: #1a2552;
+  --navy-foreground: #ffffff;
+
+  /* UI states */
+  --secondary: #edf0f8;
+  --secondary-foreground: #1a2552;
+
+  --muted: #e6eaf5;
+  --muted-foreground: #5b647a;
+
+  --accent: #cf8608;
+  --accent-foreground: #1a2552;
+
+  --destructive: #dc2626;
+  --destructive-foreground: #ffffff;
+
+  /* Inputs and Focus */
+  --border: #d9e0f2;
+  --input: #d9e0f2;
+  --ring: #125be4;
+
+  /* Radius */
+  --radius: 0.75rem;
+
+  /* Utility tints */
+  --blue-light: #e8f0ff;
+  --orange-light: #fff2df;
+
+  /* Sidebar */
+  --sidebar-background: #fafafa;
+  --sidebar-foreground: #334155;
+  --sidebar-primary: #1a2552;
+  --sidebar-primary-foreground: #f8fafc;
+  --sidebar-accent: #eef2ff;
+  --sidebar-accent-foreground: #1a2552;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #125be4;
+
+  /* Fonts */
+  --font-body: initial;
+  --font-readable: "Atkinson Hyperlegible", "Inter", sans-serif;
+}
+
+/* Tailwind theme mapping */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius: var(--radius);
+
+  --color-navy: var(--navy);
+  --color-navy-foreground: var(--navy-foreground);
+
+  --color-blue-light: var(--blue-light);
+  --color-orange-light: var(--orange-light);
+
+  --color-sidebar-background: var(--sidebar-background);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-sans: var(--font-body);
+}
+
+/* System dark mode tokens */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0f172a;
+    --foreground: #f1f5f9;
+
+    --card: #111c33;
+    --card-foreground: #f1f5f9;
+
+    --popover: #111c33;
+    --popover-foreground: #f1f5f9;
+
+    --accent: #cf8608;
+    --accent-foreground: #0f172a;
+
+    --primary: #4d8dff;
+    --primary-foreground: #0f172a;
+
+    --secondary: #172554;
+    --secondary-foreground: #f1f5f9;
+
+    --muted: #1e293b;
+    --muted-foreground: #94a3b8;
+
+    --border: #64748b;
+    --input: #64748b;
+    --ring: #4d8dff;
+
+    --sidebar-background: #0b1222;
+    --sidebar-foreground: #e2e8f0;
+    --sidebar-primary: #4d8dff;
+    --sidebar-primary-foreground: #0b1222;
+    --sidebar-accent: #0f1a33;
+    --sidebar-accent-foreground: #e2e8f0;
+    --sidebar-border: #1e293b;
+    --sidebar-ring: #4d8dff;
+
+    .field-error {
+      color: #f87171;
+    }
+  }
+}
+
+@media (forced-colors: active) {
+  * {
+    forced-color-adjust: auto;
+  }
+
+  /* Ensure focus is visible even in forced colors */
+  *:focus-visible {
+    outline: 2px solid Highlight;
+  }
+
+  .skip-link {
+    border: 2px solid ButtonText;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+    --border: #0b1222;
+    --muted-foreground: #111827;
+  }
+
+  *:focus-visible {
+    outline-width: 4px;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), "Inter", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ================================
+   Accessibility (WCAG AA / AAA)
+   ================================ */
+
+/* Skip link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 9999;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  transition: top 0.2s ease;
+}
+
+#main-content {
+  scroll-margin-top: 96px;
+}
+
+.skip-link:focus {
+  top: 1rem;
+}
+
+/* Strong focus visible */
+*:focus-visible {
+  outline: 3px solid var(--ring);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Minimum touch targets (44x44 WCAG) */
+button,
+a,
+[role="button"] {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+input,
+select,
+textarea {
+  min-height: 44px;
+}
+
+.field-error {
+  color: var(--destructive);
+  font-weight: 600;
+}
+
+.input-error {
+  border: 2px solid var(--destructive) !important;
+}
+
+.input-error:focus-visible {
+  outline-color: var(--destructive) !important;
+}
+
+/* Readable font mode */
+body.readable-font,
+body.readable-font * {
+  font-family: var(--font-readable) !important;
+}
+
+/* High contrast light */
+body.hc-light {
+  --background: #ffffff;
+  --foreground: #000000;
+  --card: #ffffff;
+  --card-foreground: #000000;
+  --primary: #0b3fb3;
+  --primary-foreground: #ffffff;
+  --muted-foreground: #111111;
+  --border: #000000;
+  --input: #000000;
+  --ring: #0b3fb3;
+}
+
+/* High contrast dark */
+body.hc-dark {
+  --background: #000000;
+  --foreground: #ffffff;
+  --card: #0a0a0a;
+  --card-foreground: #ffffff;
+  --primary: #4d8dff;
+  --primary-foreground: #000000;
+  --muted-foreground: #e5e7eb;
+  --border: #ffffff;
+  --input: #ffffff;
+  --ring: #4d8dff;
+}
+
+/* Grayscale */
+body.grayscale {
+  filter: grayscale(100%);
+}
+
+/* Reduced saturation */
+body.reduced-saturation {
+  filter: saturate(0.5);
+}
+
+/* Highlight links */
+body.highlight-links a {
+  text-decoration: underline !important;
+  text-decoration-thickness: 2px !important;
+  text-underline-offset: 3px !important;
+}
+
+/* Highlight headings */
+body.highlight-headings h1,
+body.highlight-headings h2,
+body.highlight-headings h3,
+body.highlight-headings h4 {
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+  padding: 0.125em 0.25em;
+  border-radius: 4px;
+}
+
+/* Reduced motion  (manual toggle) */
+body.reduced-motion,
+body.reduced-motion * {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* Reduced motion (system setting) */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Hide decorative images */
+body.hide-images img[aria-hidden="true"],
+body.hide-images [role="presentation"] img {
+  display: none !important;
+}
+
+/* Simplified layout helpers */
+body.simplified .decorative,
+body.simplified .secondary-content {
+  display: none !important;
+}
+
+/* Big cursor */
+body.big-cursor,
+body.big-cursor * {
+  cursor:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48'%3E%3Ccircle cx='24' cy='24' r='20' fill='%23125be4' opacity='0.5'/%3E%3Ccircle cx='24' cy='24' r='4' fill='%23000'/%3E%3C/svg%3E")
+      24 24,
+    auto !important;
+}
+
+/* Strong focus outline mode */
+body.strong-focus *:focus-visible {
+  outline: 4px solid var(--accent) !important;
+  outline-offset: 4px !important;
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--primary) 30%, transparent) !important;
+}
+
+/* Emphasize interactive elements */
+body.emphasize-interactive button,
+body.emphasize-interactive a,
+body.emphasize-interactive [role="button"],
+body.emphasize-interactive input,
+body.emphasize-interactive select,
+body.emphasize-interactive textarea {
+  border: 2px solid var(--primary) !important;
+}
+
+/* Reading guide */
+body.reading-guide {
+  cursor: crosshair;
+}
+
+/* Reading mask overlay */
+.reading-mask-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+/* Bigger targets mode */
+body.bigger-targets button,
+body.bigger-targets a,
+body.bigger-targets [role="button"] {
+  padding: 12px 16px !important;
+  min-height: 52px !important;
+}
+
+/* Reading mode */
+body.reading-mode {
+  max-width: 65ch;
+  margin: 0 auto;
+  font-size: 1.125rem;
+  line-height: 1.8;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* reference file (tells the browser to balance the text across multiple lines so that they have roughly equal width.)*/
+.text-balance {
+  text-wrap: balance;
+}
+
+[dir="rtl"] {
+  text-align: right;
+}
+
+.bg-gradient-hero {
+  background: linear-gradient(
+    160deg,
+    hsl(226, 52%, 12%) 0%,
+    hsl(226, 52%, 16%) 50%,
+    hsl(226, 52%, 21%) 80%,
+    hsl(222, 89%, 42%) 100%
+  );
+}

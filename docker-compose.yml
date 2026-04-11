@@ -1,0 +1,72 @@
+# Multi-service development environment configuration.
+
+services:
+  nest:
+    build:
+      context: .
+      dockerfile: ./apps/backend/Dockerfile.dev
+    container_name: sabilouna-nest
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./apps/backend:/app/apps/backend
+      - /app/node_modules
+    env_file:
+      - ./.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  next:
+    build:
+      context: .
+      dockerfile: ./apps/frontend/Dockerfile.dev
+    container_name: sabilouna-next
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/frontend:/app/apps/frontend
+      - /app/node_modules
+    env_file:
+      - ./.env
+    depends_on:
+      - nest
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16
+    container_name: sabilouna-postgres
+    # Restrict Postgres access to localhost and Docker network for security (no external exposure)
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d sabilouna"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    restart: unless-stopped
+
+  minio:
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z
+    container_name: sabilouna-minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD}
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio_data:/data
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  minio_data:

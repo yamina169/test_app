@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="{{lang}}" dir="{{dir}}">
+
+<body style="
+      margin:0;
+      padding:0;
+      background:#f8fafc;
+      font-family:Arial, 'Inter', sans-serif;
+      color:#0f172a;
+      direction:{{direction}};
+      text-align:{{textAlign}};
+      word-break:break-word;
+    ">
+    <div style="
+        display:none;
+        overflow:hidden;
+        line-height:1px;
+        opacity:0;
+        max-height:0;
+        max-width:0;
+        font-size:1px;
+        color:#f8fafc;
+        mso-hide:all;
+      ">
+        {{branding.previewText}} &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+    </div>
+
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
+        style="background:#f8fafc;padding:32px 16px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0"
+                    style="max-width:640px;">
+                    <tr>
+                        <td style="
+                  background:#172554;
+                  padding:20px 24px;
+                  border-radius:20px 20px 0 0;
+                ">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td style="
+                        font-size:24px;
+                        line-height:1.3;
+                        font-weight:700;
+                        color:#ffffff;
+                      ">
+                                        {{branding.brandTitle}}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="
+                        padding-top:6px;
+                        font-size:14px;
+                        line-height:1.6;
+                        color:#dbeafe;
+                      ">
+                                        {{branding.brandSlogan}}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td style="
+                  background:#ffffff;
+                  border:1px solid #dbe3ee;
+                  border-top:none;
+                  border-radius:0 0 20px 20px;
+                  padding:32px 28px;
+                ">
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+                                <tr>
+                                    <td style="font-size:16px; line-height:1.7; color:#334155;">
+                                        {{{body}}}
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="padding-top:24px;">
+                                        <table role="presentation" width="100%" cellspacing="0" cellpadding="0"
+                                            border="0" style="
+                          background:#fff7ed;
+                          border:1px solid #fdba74;
+                          border-radius:14px;
+                        ">
+                                            <tr>
+                                                <td style="
+                              padding:16px;
+                              font-size:14px;
+                              line-height:1.7;
+                              color:#7c2d12;
+                            ">
+                                                    <strong>{{branding.supportTitle}}</strong><br>
+                                                    {{branding.supportText}}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td style="
+                        padding-top:24px;
+                        font-size:16px;
+                        line-height:1.7;
+                        color:#334155;
+                        font-weight:600;
+                      ">
+                                        {{branding.teamSignature}}
+                                    </td>
+                                </tr>
+
+                                <br>
+
+                                <tr>
+                                    <td style="
+                        padding-top:28px;
+                        border-top:1px solid #e2e8f0;
+                        font-size:14px;
+                        line-height:1.7;
+                        color:#475569;
+                      ">
+                                        {{branding.footerTagline}}<br>
+                                        © {{year}} {{branding.brandTitle}} — {{branding.footerRights}}
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+
+</html>
